@@ -147,6 +147,214 @@ img{max-width:100%; display:block;}
   .wrap > div[style*="grid-template-columns: 1.05fr"]{ grid-template-columns:1fr !important; }
 }
 
+
+/* ============================================================
+   MOBILE-FIRST RESPONSIVE FIXES — 375px minimum
+   ============================================================ */
+
+/* Prevent horizontal overflow on all devices */
+html, body { overflow-x: hidden; max-width: 100vw; }
+* { box-sizing: border-box; }
+
+/* ---- HEADER MOBILE ---- */
+@media (max-width: 768px) {
+  /* Hide desktop nav links, show only logo + lang + CTA */
+  header nav { display: none !important; }
+  header .wrap { height: 60px; gap: 10px; }
+  header .wrap > a { flex-shrink: 0; }
+  /* Shrink CTA button */
+  header .btn-primary { font-size: 13px !important; padding: 9px 14px !important; white-space: nowrap; }
+}
+
+/* ---- HERO SECTION MOBILE ---- */
+@media (max-width: 860px) {
+  /* Stack hero 2-col to 1-col */
+  section#top .wrap > div {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  /* Hide the phone mockup on mobile to save space */
+  section#top .wrap > div > div:last-child {
+    display: none !important;
+  }
+  section#top { padding-top: 24px !important; padding-bottom: 48px !important; }
+}
+
+/* ---- STATS BAR MOBILE ---- */
+@media (max-width: 600px) {
+  section[style*="green-900"] .wrap,
+  div[style*="grid-template-columns: repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0 !important;
+  }
+  /* Remove right border from even items */
+  section[style*="green-900"] .wrap > div:nth-child(2),
+  section[style*="green-900"] .wrap > div:nth-child(4) {
+    border-right: none !important;
+  }
+  /* Add bottom border to first row */  
+  section[style*="green-900"] .wrap > div:nth-child(1),
+  section[style*="green-900"] .wrap > div:nth-child(2) {
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    padding-bottom: 24px;
+    margin-bottom: 0;
+  }
+  section[style*="green-900"] .wrap > div {
+    padding: 24px 8px !important;
+  }
+}
+
+/* ---- CATEGORIES GRID MOBILE ---- */
+@media (max-width: 768px) {
+  div[style*="repeat(4,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 400px) {
+  div[style*="repeat(4,1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---- HOW IT WORKS — 3 col to 1 col mobile ---- */
+@media (max-width: 768px) {
+  div[style*="repeat(3,1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---- DIFFERENTIATORS — 2 col to 1 col mobile ---- */
+@media (max-width: 600px) {
+  div[style*="1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---- COMPARE TABLE MOBILE ---- */
+@media (max-width: 640px) {
+  div[style*="grid-template-columns: 1fr 1fr"][style*="maxWidth:920"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---- WHATSAPP BAND MOBILE ---- */
+@media (max-width: 640px) {
+  div[style*="padding:"56px 56px""],
+  div[style*='padding:"56px 56px"'],
+  div[style*="padding:56px"] {
+    padding: 36px 24px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}
+
+/* ---- FOOTER MOBILE ---- */
+@media (max-width: 768px) {
+  footer div[style*="grid-template-columns: 1.4fr"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 28px !important;
+  }
+  footer div[style*="grid-template-columns: 1.4fr"] > div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 480px) {
+  footer div[style*="grid-template-columns: 1.4fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  footer div[style*="justifyContent:"space-between""] {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+  footer div[style*="textAlign:"right""] {
+    text-align: center !important;
+  }
+}
+
+/* ---- ELIGIBILITY PANEL MOBILE ---- */
+@media (max-width: 600px) {
+  /* Top bar buttons smaller */
+  div[style*="zIndex:200"] div[style*="height:66px"] .btn {
+    font-size: 13px !important;
+    padding: 8px 10px !important;
+  }
+  /* Chat bubbles full width */
+  div[style*="maxWidth:760"] {
+    padding: 0 12px !important;
+  }
+  /* Chip buttons wrap better */  
+  div[style*="marginLeft:45"] {
+    margin-left: 0 !important;
+    margin-top: 8px !important;
+  }
+}
+
+/* ---- SECTION PADDING MOBILE ---- */
+@media (max-width: 480px) {
+  .section { padding: 48px 0 !important; }
+  .section-tight { padding: 36px 0 !important; }
+  .wrap { padding: 0 16px !important; }
+}
+
+/* ---- GENERAL GRID OVERFLOW PROTECTION ---- */
+@media (max-width: 480px) {
+  .hero-h1 { font-size: 32px !important; }
+  h2 { font-size: 26px !important; }
+  .btn-lg { padding: 14px 22px !important; font-size: 16px !important; }
+  .pill { font-size: 12px !important; }
+}
+
+/* ---- MOBILE HAMBURGER MENU ---- */
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  background: none;
+  border: none;
+}
+.mobile-menu-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--ink-700);
+  border-radius: 2px;
+  transition: all .2s;
+}
+.mobile-nav-overlay {
+  display: none;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: rgba(251,251,246,.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line-soft);
+  padding: 16px 20px 20px;
+  z-index: 49;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobile-nav-overlay.open { display: flex; }
+.mobile-nav-overlay a {
+  padding: 12px 4px;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink-700);
+  border-bottom: 1px solid var(--line-soft);
+}
+.mobile-nav-overlay a:last-child { border-bottom: none; }
+
+@media (max-width: 768px) {
+  .mobile-menu-btn { display: flex; }
+  header nav { display: none !important; }
+  header .wrap > .desktop-cta { display: none !important; }
+}
+@media (min-width: 769px) {
+  .mobile-menu-btn { display: none !important; }
+  .mobile-nav-overlay { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -500,7 +708,15 @@ function Header({ t, lang, setLang, onStart }){
     on(); window.addEventListener("scroll",on); return ()=>window.removeEventListener("scroll",on);
   },[]);
   const nav=[["nav_services","#services"],["nav_how","#how"],["nav_track","#track"],["nav_about","#about"]];
-  return React.createElement("header",{style:{
+  const [menuOpen, setMenuOpen] = useState(false);
+  const t2 = window.SETU.I18N[lang];
+  return React.createElement(React.Fragment, null,
+    /* Mobile nav overlay */
+    React.createElement("div",{className:"mobile-nav-overlay"+(menuOpen?" open":"")},
+      nav.map(([k,h])=>React.createElement("a",{key:k,href:h,onClick:()=>setMenuOpen(false),className:lang==="kn"?"kn":""},t2[k])),
+      React.createElement("a",{href:"#",style:{color:"var(--green-700)",fontWeight:700}},t2.nav_login||"Sign in")
+    ),
+    React.createElement("header",{style:{
     position:"sticky",top:0,zIndex:50,
     background: solid? "rgba(251,251,246,.86)":"transparent",
     backdropFilter: solid?"saturate(140%) blur(12px)":"none",
@@ -543,7 +759,7 @@ function LangToggle({ lang, setLang }){
 function Hero({ t, lang, onStart, onWhatsApp }){
   return React.createElement("section",{id:"top",style:{position:"relative",overflow:"hidden",paddingTop:36,paddingBottom:64}},
     React.createElement(HeroBg,null),
-    React.createElement("div",{className:"wrap",style:{position:"relative",display:"grid",gridTemplateColumns:"1.05fr .95fr",gap:48,alignItems:"center"}},
+    React.createElement("div",{className:"wrap",style:{position:"relative",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:40,alignItems:"center"}},
       /* left */
       React.createElement("div",{className:lang==="kn"?"kn":""},
         React.createElement("div",{className:"pill",style:{marginBottom:22}},
@@ -648,8 +864,8 @@ function HeroPhone({ lang }){
 function Stats({ t }){
   const items=[[320,"+",t.stat_schemes],[14,"",t.stat_languages],[8,"",t.stat_minutes],[100,"%",t.stat_transparent]];
   return React.createElement("section",{style:{background:"var(--green-900)",color:"#fff"}},
-    React.createElement("div",{className:"wrap",style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:24,padding:"40px 28px"}},
-      items.map(([n,suf,lab],i)=>React.createElement("div",{key:i,style:{textAlign:"center",borderRight: i<3?"1px solid rgba(255,255,255,.12)":"none"}},
+    React.createElement("div",{className:"wrap",style:{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:0,padding:"32px 20px"}},
+      items.map(([n,suf,lab],i)=>React.createElement("div",{key:i,style:{textAlign:"center",borderRight: i<3?"1px solid rgba(255,255,255,.12)":"none", padding:"28px 16px", textAlign:"center"}},
         React.createElement("div",{style:{fontFamily:"var(--font-display)",fontWeight:800,fontSize:"clamp(34px,3.6vw,48px)",lineHeight:1,color:"var(--saffron-400)"}},
           React.createElement(CountUp,{to:n,suffix:suf})),
         React.createElement("div",{style:{fontSize:14.5,opacity:.82,marginTop:8}},lab)))
@@ -673,7 +889,7 @@ function Categories({ t, lang, onStart }){
       React.createElement("div",{className:"reveal "+(lang==="kn"?"kn":""),style:{maxWidth:680,marginBottom:44}},
         React.createElement("h2",{style:{fontSize:"clamp(30px,3.6vw,46px)"}},t.cat_title),
         React.createElement("p",{className:"muted",style:{fontSize:19,marginTop:14}},t.cat_sub)),
-      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:18}},
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))",gap:16}},
         cats.map((c,i)=>React.createElement(CatCard,{key:c.icon,c,lang,onStart,i}))),
       React.createElement("div",{className:"reveal",style:{marginTop:30}},
         React.createElement("button",{className:"btn btn-ghost",onClick:onStart},
@@ -689,7 +905,7 @@ function CatCard({ c, lang, onStart, i }){
     onMouseEnter:()=>setH(true),onMouseLeave:()=>setH(false),
     style:{
       textAlign:"left",background:"#fff",border:"1px solid var(--line)",borderRadius:"var(--r-lg)",
-      padding:"24px 22px 22px",boxShadow: h?"var(--shadow-md)":"var(--shadow-sm)",
+      padding:"20px 16px 18px",minWidth:0,boxShadow: h?"var(--shadow-md)":"var(--shadow-sm)",
       transform: h?"translateY(-4px)":"none",transition:"all .2s ease",cursor:"pointer"
     }},
     React.createElement("div",{style:{
@@ -714,7 +930,7 @@ function HowItWorks({ t, lang }){
       React.createElement("div",{className:"reveal center "+(lang==="kn"?"kn":""),style:{maxWidth:720,margin:"0 auto 56px"}},
         React.createElement("div",{className:"eyebrow",style:{marginBottom:14}},t.how_eyebrow),
         React.createElement("h2",{style:{fontSize:"clamp(30px,3.6vw,46px)"}},t.how_title)),
-      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:22,position:"relative"}},
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:20}},
         steps.map(([ic,title,desc],i)=>React.createElement("div",{key:i,className:"reveal "+(lang==="kn"?"kn":""),style:{
           background:"#fff",borderRadius:"var(--r-lg)",padding:"32px 28px",boxShadow:"var(--shadow-sm)",position:"relative"
         }},
@@ -744,7 +960,7 @@ function Differentiators({ t, lang }){
       React.createElement("div",{className:"reveal "+(lang==="kn"?"kn":""),style:{maxWidth:720,marginBottom:48}},
         React.createElement("div",{className:"eyebrow",style:{marginBottom:14}},t.diff_eyebrow),
         React.createElement("h2",{style:{fontSize:"clamp(30px,3.6vw,46px)"}},t.diff_title)),
-      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20}},
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:18}},
         items.map(([ic,title,desc],i)=>React.createElement("div",{key:i,className:"reveal "+(lang==="kn"?"kn":""),style:{
           display:"flex",gap:18,background:"#fff",border:"1px solid var(--line)",borderRadius:"var(--r-lg)",padding:"26px 26px"
         }},
@@ -777,7 +993,7 @@ function Compare({ t, lang }){
     React.createElement("div",{className:"wrap"},
       React.createElement("h2",{className:"reveal center "+(lang==="kn"?"kn":""),style:{fontSize:"clamp(28px,3.2vw,40px)",maxWidth:640,margin:"0 auto 40px"}},t.compare_title),
       React.createElement("div",{className:"reveal",style:{
-        display:"grid",gridTemplateColumns:"1fr 1fr",gap:0,maxWidth:920,margin:"0 auto",
+        display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:0,maxWidth:920,margin:"0 auto",
         borderRadius:"var(--r-lg)",overflow:"hidden",boxShadow:"var(--shadow-md)",border:"1px solid var(--line)"
       }},
         /* them col */
@@ -805,7 +1021,7 @@ function WhatsAppBand({ t, lang, onWhatsApp }){
       React.createElement("div",{className:"reveal "+(lang==="kn"?"kn":""),style:{
         position:"relative",overflow:"hidden",borderRadius:"var(--r-xl)",
         background:"linear-gradient(120deg,var(--green-800),var(--green-600))",color:"#fff",
-        padding:"56px 56px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:40,flexWrap:"wrap"
+        padding:"clamp(28px, 5vw, 56px) clamp(20px, 4vw, 56px)",display:"flex",alignItems:"center",justifyContent:"space-between",gap:32,flexWrap:"wrap"
       }},
         React.createElement("div",{style:{position:"absolute",right:-60,top:-60,width:320,height:320,borderRadius:"50%",background:"rgba(255,255,255,.06)"}}),
         React.createElement("div",{style:{position:"relative",maxWidth:560}},
@@ -824,7 +1040,7 @@ function WhatsAppBand({ t, lang, onWhatsApp }){
 function Footer({ t, lang }){
   return React.createElement("footer",{style:{background:"var(--green-900)",color:"rgba(255,255,255,.82)",paddingTop:56}},
     React.createElement("div",{className:"wrap"},
-      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1.4fr 1fr 1fr 1fr",gap:40,paddingBottom:44,borderBottom:"1px solid rgba(255,255,255,.12)"}},
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))",gap:32,paddingBottom:44,borderBottom:"1px solid rgba(255,255,255,.12)"}},
         React.createElement("div",{className:lang==="kn"?"kn":""},
           React.createElement(Logo,{size:34,light:true}),
           React.createElement("p",{style:{marginTop:16,fontSize:16,maxWidth:300,color:"rgba(255,255,255,.7)"}},t.foot_note),
