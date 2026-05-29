@@ -156,14 +156,17 @@ img{max-width:100%; display:block;}
 html, body { overflow-x: hidden; max-width: 100vw; }
 * { box-sizing: border-box; }
 
-/* ---- HEADER MOBILE ---- */
-@media (max-width: 768px) {
-  /* Hide desktop nav links, show only logo + lang + CTA */
-  header nav { display: none !important; }
-  header .wrap { height: 60px; gap: 10px; }
-  header .wrap > a { flex-shrink: 0; }
-  /* Shrink CTA button */
-  header .btn-primary { font-size: 13px !important; padding: 9px 14px !important; white-space: nowrap; }
+/* ---- HEADER RESPONSIVE ---- */
+@media (max-width: 860px) {
+  /* Hide desktop nav + CTA on mobile */
+  .desktop-nav { display: none !important; }
+  .desktop-cta { display: none !important; }
+  /* Show hamburger */
+  .hamburger-btn { display: flex !important; }
+}
+@media (min-width: 861px) {
+  /* Hide hamburger on desktop */
+  .hamburger-btn { display: none !important; }
 }
 
 /* ---- HERO SECTION MOBILE ---- */
@@ -216,6 +219,22 @@ html, body { overflow-x: hidden; max-width: 100vw; }
   }
 }
 
+
+/* ---- HERO MOBILE FIXES ---- */
+@media (max-width: 480px) {
+  /* Search/ask box full width */
+  div[style*="border-radius:999"][style*="cursor:"text""] {
+    max-width: 100% !important;
+  }
+  /* WA + trust row stacks */
+  div[style*="marginTop:18"][style*="flexWrap:"wrap""] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  /* WhatsApp button full width on tiny screens */
+  .btn-wa { width: 100% !important; justify-content: center !important; }
+}
 /* ---- HOW IT WORKS — 3 col to 1 col mobile ---- */
 @media (max-width: 768px) {
   div[style*="repeat(3,1fr)"] {
@@ -305,55 +324,40 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 }
 
 /* ---- MOBILE HAMBURGER MENU ---- */
-.mobile-menu-btn {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 8px;
-  background: none;
-  border: none;
-}
-.mobile-menu-btn span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--ink-700);
-  border-radius: 2px;
-  transition: all .2s;
-}
 .mobile-nav-overlay {
   display: none;
   position: fixed;
-  top: 60px;
+  top: 64px;
   left: 0;
   right: 0;
-  background: rgba(251,251,246,.97);
-  backdrop-filter: blur(12px);
+  background: rgba(251,251,246,.98);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line-soft);
-  padding: 16px 20px 20px;
+  box-shadow: var(--shadow-md);
+  padding: 12px 20px 20px;
   z-index: 49;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
 }
 .mobile-nav-overlay.open { display: flex; }
 .mobile-nav-overlay a {
-  padding: 12px 4px;
+  padding: 14px 0;
   font-weight: 600;
   font-size: 17px;
   color: var(--ink-700);
   border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-body);
 }
-.mobile-nav-overlay a:last-child { border-bottom: none; }
+
+/* Desktop: show desktop elements, hide mobile */
+.desktop-nav { display: flex !important; }
+.desktop-actions { display: flex !important; }
+.mobile-actions { display: none !important; }
 
 @media (max-width: 768px) {
-  .mobile-menu-btn { display: flex; }
-  header nav { display: none !important; }
-  header .wrap > .desktop-cta { display: none !important; }
-}
-@media (min-width: 769px) {
-  .mobile-menu-btn { display: none !important; }
-  .mobile-nav-overlay { display: none !important; }
+  .desktop-nav { display: none !important; }
+  .desktop-actions { display: none !important; }
+  .mobile-actions { display: flex !important; }
 }
 </style>
 </head>
@@ -710,38 +714,56 @@ function Header({ t, lang, setLang, onStart }){
   },[]);
   const nav=[["nav_services","#services"],["nav_how","#how"],["nav_track","#track"],["nav_about","#about"]];
   return React.createElement(React.Fragment, null,
-    /* Mobile nav overlay */
+    /* ── Mobile slide-down nav ── */
     React.createElement("div",{className:"mobile-nav-overlay"+(menuOpen?" open":"")},
-      nav.map(([k,h])=>React.createElement("a",{key:k,href:h,onClick:()=>setMenuOpen(false),className:lang==="kn"?"kn":""},t[k])),
-      React.createElement("a",{href:"#",style:{color:"var(--green-700)",fontWeight:700}},t.nav_login||"Sign in")
+      nav.map(([k,h])=>React.createElement("a",{key:k,href:h,onClick:()=>setMenuOpen(false)},t[k])),
+      React.createElement("div",{style:{marginTop:12,paddingTop:12,borderTop:"1px solid var(--line-soft)"}},
+        React.createElement("button",{className:"btn btn-primary",style:{width:"100%",justifyContent:"center"},onClick:()=>{setMenuOpen(false);onStart();}},t.hero_cta)
+      )
     ),
-    /* Header bar */
+    /* ── Header bar ── */
     React.createElement("header",{style:{
       position:"sticky",top:0,zIndex:50,
-      background: solid?"rgba(251,251,246,.86)":"transparent",
+      background: solid?"rgba(251,251,246,.95)":"rgba(251,251,246,.0)",
       backdropFilter: solid?"saturate(140%) blur(12px)":"none",
       borderBottom: solid?"1px solid var(--line-soft)":"1px solid transparent",
       transition:"all .25s ease"
     }},
-      React.createElement("div",{className:"wrap",style:{display:"flex",alignItems:"center",justifyContent:"space-between",height:68}},
-        React.createElement("a",{href:"#top"},React.createElement(Logo,null)),
-        React.createElement("nav",{className:lang==="kn"?"kn":"",style:{display:"flex",gap:28,alignItems:"center"}},
-          nav.map(([k,h])=>React.createElement("a",{key:k,href:h,style:{fontWeight:600,fontSize:15.5,color:"var(--ink-700)"}},t[k]))
+      React.createElement("div",{className:"wrap",style:{display:"flex",alignItems:"center",justifyContent:"space-between",height:64,gap:8}},
+        /* Logo */
+        React.createElement("a",{href:"#top",style:{flexShrink:0}},React.createElement(Logo,null)),
+        /* Desktop nav */
+        React.createElement("nav",{className:"desktop-nav "+(lang==="kn"?"kn":""),style:{display:"flex",gap:24,alignItems:"center",flex:1,justifyContent:"center"}},
+          nav.map(([k,h])=>React.createElement("a",{key:k,href:h,style:{fontWeight:600,fontSize:15,color:"var(--ink-700)",whiteSpace:"nowrap"}},t[k]))
         ),
-        React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10}},
+        /* Desktop right: lang + CTA */
+        React.createElement("div",{className:"desktop-actions",style:{display:"flex",alignItems:"center",gap:10,flexShrink:0}},
           React.createElement(LangToggle,{lang,setLang}),
-          React.createElement("button",{className:"btn btn-primary btn-sm",style:{whiteSpace:"nowrap"},onClick:onStart},
-            React.createElement(window.Icon,{name:"bolt",size:17}), t.hero_cta
-          ),
-          React.createElement("button",{className:"mobile-menu-btn","aria-label":"Menu",onClick:()=>setMenuOpen(o=>!o)},
-            React.createElement("span",null),React.createElement("span",null),React.createElement("span",null)
+          React.createElement("button",{className:"btn btn-primary btn-sm",onClick:onStart,style:{whiteSpace:"nowrap"}},
+            React.createElement(window.Icon,{name:"bolt",size:16}), t.hero_cta
+          )
+        ),
+        /* Mobile right: lang toggle + hamburger only */
+        React.createElement("div",{className:"mobile-actions",style:{display:"none",alignItems:"center",gap:8}},
+          React.createElement(LangToggle,{lang,setLang}),
+          React.createElement("button",{
+            onClick:()=>setMenuOpen(o=>!o),
+            style:{
+              width:40,height:40,borderRadius:10,display:"flex",flexDirection:"column",
+              alignItems:"center",justifyContent:"center",gap:5,
+              background: menuOpen?"var(--green-50)":"transparent",
+              border:"1.5px solid var(--line)",cursor:"pointer",flexShrink:0
+            }
+          },
+            React.createElement("span",{style:{width:18,height:2,background:"var(--ink-700)",borderRadius:2,transition:"all .2s",transform:menuOpen?"rotate(45deg) translate(3px,3px)":"none"}}),
+            React.createElement("span",{style:{width:18,height:2,background:"var(--ink-700)",borderRadius:2,transition:"all .2s",opacity:menuOpen?0:1}}),
+            React.createElement("span",{style:{width:18,height:2,background:"var(--ink-700)",borderRadius:2,transition:"all .2s",transform:menuOpen?"rotate(-45deg) translate(3px,-3px)":"none"}})
           )
         )
       )
     )
   );
 }
-
 function LangToggle({ lang, setLang }){
   return React.createElement("div",{style:{
     display:"flex",background:"#fff",border:"1.5px solid var(--line)",borderRadius:999,padding:3,gap:2
