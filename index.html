@@ -703,37 +703,39 @@ const { useState:hUseState, useEffect:hUseEffect } = React;
 /* ---------- Header ---------- */
 function Header({ t, lang, setLang, onStart }){
   const [solid,setSolid]=React.useState(false);
+  const [menuOpen,setMenuOpen]=React.useState(false);
   React.useEffect(()=>{
     const on=()=>setSolid(window.scrollY>20);
     on(); window.addEventListener("scroll",on); return ()=>window.removeEventListener("scroll",on);
   },[]);
   const nav=[["nav_services","#services"],["nav_how","#how"],["nav_track","#track"],["nav_about","#about"]];
-  const [menuOpen, setMenuOpen] = useState(false);
-  const t2 = window.SETU.I18N[lang];
   return React.createElement(React.Fragment, null,
     /* Mobile nav overlay */
     React.createElement("div",{className:"mobile-nav-overlay"+(menuOpen?" open":"")},
-      nav.map(([k,h])=>React.createElement("a",{key:k,href:h,onClick:()=>setMenuOpen(false),className:lang==="kn"?"kn":""},t2[k])),
-      React.createElement("a",{href:"#",style:{color:"var(--green-700)",fontWeight:700}},t2.nav_login||"Sign in")
+      nav.map(([k,h])=>React.createElement("a",{key:k,href:h,onClick:()=>setMenuOpen(false),className:lang==="kn"?"kn":""},t[k])),
+      React.createElement("a",{href:"#",style:{color:"var(--green-700)",fontWeight:700}},t.nav_login||"Sign in")
     ),
+    /* Header bar */
     React.createElement("header",{style:{
-    position:"sticky",top:0,zIndex:50,
-    background: solid? "rgba(251,251,246,.86)":"transparent",
-    backdropFilter: solid?"saturate(140%) blur(12px)":"none",
-    borderBottom: solid?"1px solid var(--line-soft)":"1px solid transparent",
-    transition:"all .25s ease"
-  }},
-    React.createElement("div",{className:"wrap",style:{display:"flex",alignItems:"center",justifyContent:"space-between",height:74}},
-      React.createElement("a",{href:"#top"},React.createElement(Logo,null)),
-      React.createElement("nav",{className:lang==="kn"?"kn":"",style:{display:"flex",gap:30,alignItems:"center"}},
-        nav.map(([k,h])=>React.createElement("a",{key:k,href:h,style:{
-          fontWeight:600,fontSize:15.5,color:"var(--ink-700)"
-        }},t[k]))
-      ),
-      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:14}},
-        React.createElement(LangToggle,{lang,setLang}),
-        React.createElement("button",{className:"btn btn-primary btn-sm",onClick:onStart},
-          React.createElement(Icon,{name:"bolt",size:17}), t.hero_cta
+      position:"sticky",top:0,zIndex:50,
+      background: solid?"rgba(251,251,246,.86)":"transparent",
+      backdropFilter: solid?"saturate(140%) blur(12px)":"none",
+      borderBottom: solid?"1px solid var(--line-soft)":"1px solid transparent",
+      transition:"all .25s ease"
+    }},
+      React.createElement("div",{className:"wrap",style:{display:"flex",alignItems:"center",justifyContent:"space-between",height:68}},
+        React.createElement("a",{href:"#top"},React.createElement(Logo,null)),
+        React.createElement("nav",{className:lang==="kn"?"kn":"",style:{display:"flex",gap:28,alignItems:"center"}},
+          nav.map(([k,h])=>React.createElement("a",{key:k,href:h,style:{fontWeight:600,fontSize:15.5,color:"var(--ink-700)"}},t[k]))
+        ),
+        React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10}},
+          React.createElement(LangToggle,{lang,setLang}),
+          React.createElement("button",{className:"btn btn-primary btn-sm",style:{whiteSpace:"nowrap"},onClick:onStart},
+            React.createElement(window.Icon,{name:"bolt",size:17}), t.hero_cta
+          ),
+          React.createElement("button",{className:"mobile-menu-btn","aria-label":"Menu",onClick:()=>setMenuOpen(o=>!o)},
+            React.createElement("span",null),React.createElement("span",null),React.createElement("span",null)
+          )
         )
       )
     )
