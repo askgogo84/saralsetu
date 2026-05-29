@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Saralsetu — Your bridge to government</title>
+<meta name="description" content="AI-powered citizen assistant for Karnataka government schemes. Check eligibility, apply, and track — in Kannada or English." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Noto+Sans+Kannada:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   SetuNxt — design tokens & base styles
+   Green + saffron on warm white. Friendly, confident, big.
+   ============================================================ */
+:root{
+  /* palette */
+  --green-900:#063a2b;
+  --green-800:#0a5640;
+  --green-700:#0b6e4f;   /* primary */
+  --green-600:#138a64;
+  --green-500:#19a87b;
+  --green-100:#e4f3ec;
+  --green-50:#eef8f2;
+
+  --saffron-600:#d98800;
+  --saffron-500:#f4a300;  /* accent */
+  --saffron-400:#ffb52e;
+  --saffron-100:#fdeccd;
+
+  --ink-900:#0e1b16;
+  --ink-700:#26352e;
+  --ink-500:#5b6b63;
+  --ink-400:#7e8c84;
+
+  --paper:#fbfbf6;       /* warm white page */
+  --surface:#ffffff;
+  --line:#e7e8e0;
+  --line-soft:#eef0e8;
+
+  --whatsapp:#1faa53;
+
+  --shadow-sm:0 1px 2px rgba(14,27,22,.05), 0 2px 8px rgba(14,27,22,.05);
+  --shadow-md:0 8px 24px rgba(14,27,22,.08), 0 2px 6px rgba(14,27,22,.05);
+  --shadow-lg:0 24px 60px rgba(6,58,43,.16), 0 6px 18px rgba(14,27,22,.08);
+  --shadow-green:0 18px 44px rgba(11,110,79,.28);
+
+  --r-sm:12px;
+  --r-md:18px;
+  --r-lg:26px;
+  --r-xl:34px;
+  --r-pill:999px;
+
+  --maxw:1200px;
+
+  --font-display:"Bricolage Grotesque", system-ui, sans-serif;
+  --font-body:"Hanken Grotesk", system-ui, sans-serif;
+  --font-kn:"Noto Sans Kannada", "Hanken Grotesk", sans-serif;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  background:var(--paper);
+  color:var(--ink-900);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  font-size:17px;
+  line-height:1.55;
+}
+:lang(kn), .kn{font-family:var(--font-kn); line-height:1.7;}
+
+h1,h2,h3,h4{font-family:var(--font-display); font-weight:700; line-height:1.04; letter-spacing:-.02em; margin:0;}
+p{margin:0;}
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit; cursor:pointer; border:none; background:none;}
+img{max-width:100%; display:block;}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+/* buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  font-family:var(--font-body); font-weight:700; font-size:17px;
+  padding:15px 26px; border-radius:var(--r-pill);
+  transition:transform .15s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+  white-space:nowrap; cursor:pointer;
+}
+.btn:active{transform:translateY(1px) scale(.99);}
+.btn-primary{background:var(--green-700); color:#fff; box-shadow:var(--shadow-green);}
+.btn-primary:hover{background:var(--green-800); transform:translateY(-2px);}
+.btn-accent{background:var(--saffron-500); color:var(--ink-900); box-shadow:0 14px 30px rgba(244,163,0,.32);}
+.btn-accent:hover{background:var(--saffron-400); transform:translateY(-2px);}
+.btn-ghost{background:#fff; color:var(--green-800); border:1.5px solid var(--line);}
+.btn-ghost:hover{border-color:var(--green-500); color:var(--green-700);}
+.btn-wa{background:var(--whatsapp); color:#fff; box-shadow:0 14px 30px rgba(31,170,83,.3);}
+.btn-wa:hover{filter:brightness(1.05); transform:translateY(-2px);}
+.btn-lg{padding:18px 32px; font-size:19px;}
+.btn-sm{padding:10px 18px; font-size:15px;}
+
+.pill{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 15px; border-radius:var(--r-pill);
+  font-size:14px; font-weight:600;
+  background:var(--green-50); color:var(--green-800);
+  border:1px solid var(--green-100);
+}
+
+.eyebrow{
+  font-weight:700; font-size:14px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green-600);
+}
+
+/* utility */
+.center{text-align:center;}
+.muted{color:var(--ink-500);}
+.section{padding:96px 0;}
+.section-tight{padding:64px 0;}
+
+/* reveal on scroll */
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);}
+.reveal.in{opacity:1; transform:none;}
+
+::selection{background:var(--saffron-100); color:var(--green-900);}
+
+/* scrollbar for chat */
+.thin-scroll::-webkit-scrollbar{width:8px;}
+.thin-scroll::-webkit-scrollbar-thumb{background:var(--line); border-radius:99px;}
+
+@media (max-width:860px){
+  body{font-size:16px;}
+  .section{padding:64px 0;}
+  .wrap{padding:0 20px;}
+}
+
+
+@keyframes elbounce { 0%,80%,100%{ transform:translateY(0); opacity:.5 } 40%{ transform:translateY(-6px); opacity:1 } }
+@keyframes elpop { from{ opacity:0; transform:translateY(10px) scale(.98) } to{ opacity:1; transform:none } }
+.el-pop{ animation:elpop .35s cubic-bezier(.2,.7,.2,1) both; }
+:root{ --green-200:#bfe3d2; --green-300:#7fccaa; }
+.hero-h1{ font-size:58px; line-height:1.12; }
+@media (max-width:1100px){ .hero-h1{ font-size:48px; } }
+@media (max-width:600px){ .hero-h1{ font-size:38px; } }
+@media (max-width:880px){
+  .wrap > div[style*="grid-template-columns: 1.05fr"]{ grid-template-columns:1fr !important; }
+}
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script>
+/* ============================================================
+   Saralsetu — data + i18n
+   Plain JS, attached to window for the babel scripts to read.
+   ============================================================ */
+
+/* --- UI strings (English + Kannada) --- */
+const I18N = {
+  en: {
+    langName:"English",
+    nav_services:"Services", nav_how:"How it works", nav_track:"Track request", nav_about:"About",
+    nav_login:"Sign in",
+    hero_pill:"AI-powered • 14 languages • Govt-integrated",
+    hero_h1a:"Skip the queues.", hero_h1b:"Claim what's yours.",
+    hero_sub:"Tell Saralsetu about yourself in plain words. Our AI checks you against 320+ Karnataka & Central government schemes in seconds — then helps you apply and tracks it end-to-end.",
+    hero_input:"e.g. “I'm a farmer in Belagavi, I need help with my crop loan”",
+    hero_cta:"Check what I'm eligible for",
+    hero_wa:"Start on WhatsApp",
+    hero_trust:"No paperwork to start. Free eligibility check.",
+    stat_schemes:"Government schemes", stat_languages:"Languages supported",
+    stat_minutes:"Avg. minutes to apply", stat_transparent:"Tracked & transparent",
+    cat_title:"Every service, one doorway",
+    cat_sub:"Pick a need or just ask our assistant. We cover the schemes citizens actually use.",
+    cat_all:"Browse all 320+ services",
+    how_eyebrow:"How it works",
+    how_title:"From confusion to approved — in three steps",
+    how_1t:"Tell us about yourself", how_1d:"Answer a few friendly questions by chat or voice. No forms, no jargon — in Kannada or English.",
+    how_2t:"AI finds your matches", how_2d:"Our eligibility engine instantly checks you against every scheme and shows exactly what you qualify for, and why.",
+    how_3t:"Apply & track openly", how_3d:"We auto-fill, verify documents via DigiLocker & eSign, submit to the right office, and show you live status the whole way.",
+    diff_eyebrow:"Why Saralsetu",
+    diff_title:"Built to be the easiest — and the most honest — way in",
+    diff_1t:"Plugged into e-Governance", diff_1d:"Direct integration with the state e-Governance backbone means real status, real timelines — no middlemen, full transparency.",
+    diff_2t:"A fraction of the cost", diff_2d:"Agents charge ₹300–₹1500 per application. Saralsetu does eligibility free and applications for a flat, transparent fee.",
+    diff_3t:"Speaks your language", diff_3d:"Kannada-first conversational onboarding designed for first-time and low-literacy users. If you can chat, you can apply.",
+    diff_4t:"Honest by design", diff_4d:"Every step is logged and visible. You always know where your application is and who has it.",
+    compare_title:"The difference is the experience",
+    compare_them:"Typical agent / portal", compare_us:"Saralsetu",
+    wa_title:"Prefer WhatsApp? Start right there.",
+    wa_sub:"Message us and the same AI assistant walks you through everything — no app to install, no account to remember.",
+    wa_cta:"Open WhatsApp chat",
+    foot_tag:"Your bridge to government.",
+    foot_note:"Saralsetu is a citizen-assistance platform. Built for the people of Karnataka.",
+    foot_disc:"Independent platform integrating with official government services. Not a government website.",
+    /* eligibility flow */
+    el_back:"Back to home",
+    el_restart:"Start over",
+    el_greet:"Namaskara! 🙏 I'm Setu, your assistant. I'll ask a few quick questions and find every scheme you can claim. Ready?",
+    el_begin:"Yes, let's begin",
+    el_typing:"Setu is typing",
+    el_progress:"Question",
+    el_results_title:"Great news — you may qualify for",
+    el_results_sub:"Based on what you told me. Free to check, and I can start any application for you.",
+    el_match:"match",
+    el_apply:"Start application",
+    el_apply_wa:"Continue on WhatsApp",
+    el_benefit:"Benefit",
+    el_why:"Why you qualify",
+    el_more:"View details",
+    el_none_more:"Want me to check anything else?",
+    el_send:"Send",
+    el_placeholder:"Type your answer…",
+    el_pick:"Pick one",
+  },
+  kn: {
+    langName:"ಕನ್ನಡ",
+    nav_services:"ಸೇವೆಗಳು", nav_how:"ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ", nav_track:"ಅರ್ಜಿ ಟ್ರ್ಯಾಕ್", nav_about:"ನಮ್ಮ ಬಗ್ಗೆ",
+    nav_login:"ಸೈನ್ ಇನ್",
+    hero_pill:"ಎಐ ಚಾಲಿತ • ೧೪ ಭಾಷೆಗಳು • ಸರ್ಕಾರಿ ಸಂಯೋಜಿತ",
+    hero_h1a:"ಸಾಲುಗಳಿಗೆ ವಿದಾಯ.", hero_h1b:"ನಿಮ್ಮ ಹಕ್ಕನ್ನು ಪಡೆಯಿರಿ.",
+    hero_sub:"ನಿಮ್ಮ ಬಗ್ಗೆ ಸರಳ ಮಾತಿನಲ್ಲಿ ಹೇಳಿ. ಸರಳಸೇತು ಎಐ ೩೨೦+ ಕರ್ನಾಟಕ ಮತ್ತು ಕೇಂದ್ರ ಯೋಜನೆಗಳಲ್ಲಿ ಸೆಕೆಂಡುಗಳಲ್ಲಿ ನಿಮ್ಮ ಅರ್ಹತೆ ಪರಿಶೀಲಿಸುತ್ತದೆ — ಮತ್ತು ಅರ್ಜಿ ಸಲ್ಲಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.",
+    hero_input:"ಉದಾ. “ನಾನು ಬೆಳಗಾವಿಯ ರೈತ, ಬೆಳೆ ಸಾಲ ಬೇಕು”",
+    hero_cta:"ನನ್ನ ಅರ್ಹತೆ ಪರಿಶೀಲಿಸಿ",
+    hero_wa:"ವಾಟ್ಸ್‌ಆಪ್‌ನಲ್ಲಿ ಪ್ರಾರಂಭಿಸಿ",
+    hero_trust:"ಪ್ರಾರಂಭಿಸಲು ದಾಖಲೆ ಬೇಡ. ಉಚಿತ ಅರ್ಹತೆ ಪರಿಶೀಲನೆ.",
+    stat_schemes:"ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು", stat_languages:"ಬೆಂಬಲಿತ ಭಾಷೆಗಳು",
+    stat_minutes:"ಅರ್ಜಿಗೆ ಸರಾಸರಿ ನಿಮಿಷ", stat_transparent:"ಪಾರದರ್ಶಕ ಟ್ರ್ಯಾಕಿಂಗ್",
+    cat_title:"ಎಲ್ಲಾ ಸೇವೆಗಳು, ಒಂದೇ ಬಾಗಿಲು",
+    cat_sub:"ನಿಮ್ಮ ಅಗತ್ಯ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಸಹಾಯಕನನ್ನು ಕೇಳಿ.",
+    cat_all:"ಎಲ್ಲಾ ೩೨೦+ ಸೇವೆಗಳನ್ನು ನೋಡಿ",
+    how_eyebrow:"ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ",
+    how_title:"ಗೊಂದಲದಿಂದ ಅನುಮೋದನೆಗೆ — ಮೂರು ಹಂತಗಳಲ್ಲಿ",
+    how_1t:"ನಿಮ್ಮ ಬಗ್ಗೆ ಹೇಳಿ", how_1d:"ಚಾಟ್ ಅಥವಾ ಧ್ವನಿಯ ಮೂಲಕ ಕೆಲವು ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ. ಫಾರ್ಮ್ ಇಲ್ಲ, ಕಠಿಣ ಪದ ಇಲ್ಲ.",
+    how_2t:"ಎಐ ನಿಮ್ಮ ಯೋಜನೆ ಹುಡುಕುತ್ತದೆ", how_2d:"ನಮ್ಮ ಎಂಜಿನ್ ಪ್ರತಿ ಯೋಜನೆಯಲ್ಲಿ ನಿಮ್ಮ ಅರ್ಹತೆಯನ್ನು ತಕ್ಷಣ ತೋರಿಸುತ್ತದೆ.",
+    how_3t:"ಅರ್ಜಿ ಮತ್ತು ಟ್ರ್ಯಾಕ್", how_3d:"ಡಿಜಿಲಾಕರ್ ಮತ್ತು ಇ-ಸೈನ್ ಮೂಲಕ ದಾಖಲೆ ಪರಿಶೀಲಿಸಿ, ಸರಿಯಾದ ಕಚೇರಿಗೆ ಸಲ್ಲಿಸುತ್ತೇವೆ.",
+    diff_eyebrow:"ಸರಳಸೇತು ಏಕೆ",
+    diff_title:"ಸುಲಭವಾದ — ಮತ್ತು ಪ್ರಾಮಾಣಿಕವಾದ — ದಾರಿ",
+    diff_1t:"ಇ-ಆಡಳಿತದೊಂದಿಗೆ ಸಂಯೋಜಿತ", diff_1d:"ರಾಜ್ಯ ಇ-ಆಡಳಿತದೊಂದಿಗೆ ನೇರ ಸಂಯೋಜನೆ — ನಿಜವಾದ ಸ್ಥಿತಿ, ಪೂರ್ಣ ಪಾರದರ್ಶಕತೆ.",
+    diff_2t:"ಕಡಿಮೆ ವೆಚ್ಚ", diff_2d:"ಏಜೆಂಟರು ಪ್ರತಿ ಅರ್ಜಿಗೆ ₹೩೦೦–₹೧೫೦೦ ವಿಧಿಸುತ್ತಾರೆ. ಸರಳಸೇತು ಅರ್ಹತೆ ಉಚಿತ.",
+    diff_3t:"ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ", diff_3d:"ಮೊದಲ ಬಾರಿಯ ಬಳಕೆದಾರರಿಗಾಗಿ ಕನ್ನಡ-ಮೊದಲ ಸಂಭಾಷಣೆ. ಚಾಟ್ ಮಾಡಬಲ್ಲಿರಾದರೆ ಅರ್ಜಿ ಸಲ್ಲಿಸಬಹುದು.",
+    diff_4t:"ವಿನ್ಯಾಸದಿಂದ ಪ್ರಾಮಾಣಿಕ", diff_4d:"ಪ್ರತಿ ಹಂತವೂ ದಾಖಲಾಗುತ್ತದೆ. ನಿಮ್ಮ ಅರ್ಜಿ ಎಲ್ಲಿದೆ ಎಂದು ಯಾವಾಗಲೂ ತಿಳಿಯಿರಿ.",
+    compare_title:"ವ್ಯತ್ಯಾಸ ಅನುಭವದಲ್ಲಿದೆ",
+    compare_them:"ಸಾಮಾನ್ಯ ಏಜೆಂಟ್ / ಪೋರ್ಟಲ್", compare_us:"ಸರಳಸೇತು",
+    wa_title:"ವಾಟ್ಸ್‌ಆಪ್ ಇಷ್ಟವೇ? ಅಲ್ಲೇ ಪ್ರಾರಂಭಿಸಿ.",
+    wa_sub:"ನಮಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ — ಅದೇ ಎಐ ಸಹಾಯಕ ಎಲ್ಲವನ್ನೂ ಮಾರ್ಗದರ್ಶಿಸುತ್ತದೆ.",
+    wa_cta:"ವಾಟ್ಸ್‌ಆಪ್ ತೆರೆಯಿರಿ",
+    foot_tag:"ಸರ್ಕಾರಕ್ಕೆ ನಿಮ್ಮ ಸೇತುವೆ.",
+    foot_note:"ಸರಳಸೇತು ಒಂದು ನಾಗರಿಕ-ಸಹಾಯ ವೇದಿಕೆ. ಕರ್ನಾಟಕದ ಜನರಿಗಾಗಿ.",
+    foot_disc:"ಅಧಿಕೃತ ಸರ್ಕಾರಿ ಸೇವೆಗಳೊಂದಿಗೆ ಸಂಯೋಜಿತ ಸ್ವತಂತ್ರ ವೇದಿಕೆ. ಇದು ಸರ್ಕಾರಿ ವೆಬ್‌ಸೈಟ್ ಅಲ್ಲ.",
+    el_back:"ಮುಖಪುಟಕ್ಕೆ",
+    el_restart:"ಮತ್ತೆ ಪ್ರಾರಂಭಿಸಿ",
+    el_greet:"ನಮಸ್ಕಾರ! 🙏 ನಾನು ಸೇತು, ನಿಮ್ಮ ಸಹಾಯಕ. ಕೆಲವು ಪ್ರಶ್ನೆಗಳನ್ನು ಕೇಳುತ್ತೇನೆ ಮತ್ತು ನಿಮ್ಮ ಎಲ್ಲಾ ಯೋಜನೆಗಳನ್ನು ಹುಡುಕುತ್ತೇನೆ. ಸಿದ್ಧವೇ?",
+    el_begin:"ಹೌದು, ಪ್ರಾರಂಭಿಸೋಣ",
+    el_typing:"ಸೇತು ಟೈಪ್ ಮಾಡುತ್ತಿದೆ",
+    el_progress:"ಪ್ರಶ್ನೆ",
+    el_results_title:"ಶುಭ ಸುದ್ದಿ — ನೀವು ಅರ್ಹರಾಗಬಹುದು",
+    el_results_sub:"ನೀವು ಹೇಳಿದ ಆಧಾರದ ಮೇಲೆ. ಪರಿಶೀಲನೆ ಉಚಿತ, ಮತ್ತು ಯಾವುದೇ ಅರ್ಜಿ ಪ್ರಾರಂಭಿಸಬಲ್ಲೆ.",
+    el_match:"ಹೊಂದಾಣಿಕೆ",
+    el_apply:"ಅರ್ಜಿ ಪ್ರಾರಂಭಿಸಿ",
+    el_apply_wa:"ವಾಟ್ಸ್‌ಆಪ್‌ನಲ್ಲಿ ಮುಂದುವರಿಸಿ",
+    el_benefit:"ಲಾಭ",
+    el_why:"ಏಕೆ ಅರ್ಹರು",
+    el_more:"ವಿವರಗಳು",
+    el_none_more:"ಬೇರೆ ಏನಾದರೂ ಪರಿಶೀಲಿಸಲೇ?",
+    el_send:"ಕಳುಹಿಸಿ",
+    el_placeholder:"ನಿಮ್ಮ ಉತ್ತರ ಟೈಪ್ ಮಾಡಿ…",
+    el_pick:"ಒಂದನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+  }
+};
+
+/* --- Service categories (icon keys map to icons.jsx) --- */
+const CATEGORIES = [
+  { icon:"sprout",   en:"Farmers & Agriculture", kn:"ರೈತರು ಮತ್ತು ಕೃಷಿ", count:48, en_d:"Crop loans, PM-Kisan, insurance", kn_d:"ಬೆಳೆ ಸಾಲ, ಪಿಎಂ-ಕಿಸಾನ್, ವಿಮೆ" },
+  { icon:"cap",      en:"Students & Scholarships", kn:"ವಿದ್ಯಾರ್ಥಿ ವೇತನ", count:36, en_d:"Fee waivers, post-matric, hostels", kn_d:"ಶುಲ್ಕ ವಿನಾಯಿತಿ, ವಿದ್ಯಾರ್ಥಿ ವೇತನ" },
+  { icon:"heart",    en:"Women & Child", kn:"ಮಹಿಳಾ ಮತ್ತು ಮಕ್ಕಳು", count:29, en_d:"Gruha Lakshmi, maternity, nutrition", kn_d:"ಗೃಹ ಲಕ್ಷ್ಮಿ, ಮಾತೃತ್ವ, ಪೋಷಣೆ" },
+  { icon:"pension",  en:"Pension & Welfare", kn:"ಪಿಂಚಣಿ ಮತ್ತು ಕಲ್ಯಾಣ", count:22, en_d:"Old age, widow, disability pension", kn_d:"ವೃದ್ಧಾಪ್ಯ, ವಿಧವಾ, ಅಂಗವಿಕಲ ಪಿಂಚಣಿ" },
+  { icon:"doc",      en:"Certificates", kn:"ಪ್ರಮಾಣಪತ್ರಗಳು", count:31, en_d:"Income, caste, residence, birth", kn_d:"ಆದಾಯ, ಜಾತಿ, ವಾಸ, ಜನನ" },
+  { icon:"land",     en:"Land & Revenue", kn:"ಭೂಮಿ ಮತ್ತು ಕಂದಾಯ", count:24, en_d:"RTC, mutation, Bhoomi records", kn_d:"ಆರ್‌ಟಿಸಿ, ಮ್ಯುಟೇಶನ್, ಭೂಮಿ" },
+  { icon:"health",   en:"Health & Insurance", kn:"ಆರೋಗ್ಯ ಮತ್ತು ವಿಮೆ", count:27, en_d:"Ayushman, Arogya Karnataka", kn_d:"ಆಯುಷ್ಮಾನ್, ಆರೋಗ್ಯ ಕರ್ನಾಟಕ" },
+  { icon:"work",     en:"Jobs & Skilling", kn:"ಉದ್ಯೋಗ ಮತ್ತು ಕೌಶಲ್ಯ", count:33, en_d:"Self-employment, loans, training", kn_d:"ಸ್ವಯಂ ಉದ್ಯೋಗ, ಸಾಲ, ತರಬೇತಿ" },
+];
+
+/* --- Eligibility conversation: question flow --- */
+const EL_QUESTIONS = [
+  { id:"applying_for", en_q:"Who are we checking schemes for?", kn_q:"ನಾವು ಯಾರಿಗಾಗಿ ಯೋಜನೆ ಪರಿಶೀಲಿಸುತ್ತಿದ್ದೇವೆ?",
+    options:[
+      {v:"self", en:"Myself", kn:"ನನಗಾಗಿ"},
+      {v:"family", en:"A family member", kn:"ಕುಟುಂಬ ಸದಸ್ಯ"},
+    ]},
+  { id:"gender", en_q:"And the gender of the applicant?", kn_q:"ಅರ್ಜಿದಾರರ ಲಿಂಗ?",
+    options:[
+      {v:"female", en:"Woman", kn:"ಮಹಿಳೆ"},
+      {v:"male", en:"Man", kn:"ಪುರುಷ"},
+      {v:"other", en:"Prefer not to say", kn:"ಹೇಳಲು ಇಷ್ಟವಿಲ್ಲ"},
+    ]},
+  { id:"age", en_q:"Roughly how old is the applicant?", kn_q:"ಅರ್ಜಿದಾರರ ಸುಮಾರು ವಯಸ್ಸು?",
+    options:[
+      {v:"u18", en:"Under 18", kn:"೧೮ಕ್ಕಿಂತ ಕಡಿಮೆ"},
+      {v:"18_35", en:"18 – 35", kn:"೧೮ – ೩೫"},
+      {v:"36_59", en:"36 – 59", kn:"೩೬ – ೫೯"},
+      {v:"60p", en:"60 or above", kn:"೬೦ ಅಥವಾ ಹೆಚ್ಚು"},
+    ]},
+  { id:"occupation", en_q:"What best describes the applicant's work?", kn_q:"ಅರ್ಜಿದಾರರ ಕೆಲಸ ಯಾವುದು?",
+    options:[
+      {v:"farmer", en:"Farmer", kn:"ರೈತ"},
+      {v:"student", en:"Student", kn:"ವಿದ್ಯಾರ್ಥಿ"},
+      {v:"worker", en:"Daily wage / labour", kn:"ದಿನಗೂಲಿ / ಕಾರ್ಮಿಕ"},
+      {v:"selfemp", en:"Small business / self-employed", kn:"ಸಣ್ಣ ವ್ಯಾಪಾರ"},
+      {v:"homemaker", en:"Homemaker", kn:"ಗೃಹಿಣಿ"},
+      {v:"none", en:"Not currently working", kn:"ಸದ್ಯ ಕೆಲಸವಿಲ್ಲ"},
+    ]},
+  { id:"income", en_q:"What's the yearly family income, roughly?", kn_q:"ವಾರ್ಷಿಕ ಕುಟುಂಬ ಆದಾಯ ಸುಮಾರು?",
+    options:[
+      {v:"u1l", en:"Below ₹1 lakh", kn:"₹೧ ಲಕ್ಷಕ್ಕಿಂತ ಕಡಿಮೆ"},
+      {v:"1_3l", en:"₹1 – 3 lakh", kn:"₹೧ – ೩ ಲಕ್ಷ"},
+      {v:"3_8l", en:"₹3 – 8 lakh", kn:"₹೩ – ೮ ಲಕ್ಷ"},
+      {v:"8p", en:"Above ₹8 lakh", kn:"₹೮ ಲಕ್ಷಕ್ಕಿಂತ ಹೆಚ್ಚು"},
+    ]},
+  { id:"district", en_q:"Last one — which district are you in?", kn_q:"ಕೊನೆಯದು — ನೀವು ಯಾವ ಜಿಲ್ಲೆಯಲ್ಲಿ?",
+    free:true,
+    chips:["Belagavi","Bengaluru","Mysuru","Kalaburagi","Tumakuru","Dharwad"],
+  },
+];
+
+/* --- Schemes returned by the engine (demo logic) --- */
+const SCHEMES = [
+  { id:"gruhalakshmi", en:"Gruha Lakshmi", kn:"ಗೃಹ ಲಕ್ಷ್ಮಿ", cat:"Women & Child",
+    en_b:"₹2,000 / month to the woman head of family", kn_b:"ಕುಟುಂಬದ ಮಹಿಳಾ ಮುಖ್ಯಸ್ಥೆಗೆ ತಿಂಗಳಿಗೆ ₹೨,೦೦೦",
+    en_why:"Woman applicant, family income within limit", kn_why:"ಮಹಿಳಾ ಅರ್ಜಿದಾರೆ, ಆದಾಯ ಮಿತಿಯೊಳಗೆ",
+    match:(a)=> (a.gender==="female"||a.occupation==="homemaker") && a.income!=="8p" },
+  { id:"pmkisan", en:"PM-Kisan Samman Nidhi", kn:"ಪಿಎಂ-ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ", cat:"Farmers",
+    en_b:"₹6,000 / year direct to your bank", kn_b:"ವರ್ಷಕ್ಕೆ ₹೬,೦೦೦ ನೇರ ಬ್ಯಾಂಕಿಗೆ",
+    en_why:"Registered farmer with cultivable land", kn_why:"ಕೃಷಿ ಭೂಮಿ ಹೊಂದಿರುವ ರೈತ",
+    match:(a)=> a.occupation==="farmer" },
+  { id:"croploan", en:"Crop Loan Interest Subsidy", kn:"ಬೆಳೆ ಸಾಲ ಬಡ್ಡಿ ಸಬ್ಸಿಡಿ", cat:"Farmers",
+    en_b:"Zero / low-interest crop loans up to ₹3 lakh", kn_b:"₹೩ ಲಕ್ಷದವರೆಗೆ ಶೂನ್ಯ ಬಡ್ಡಿ ಬೆಳೆ ಸಾಲ",
+    en_why:"Farmer, family income under ₹8 lakh", kn_why:"ರೈತ, ಆದಾಯ ₹೮ ಲಕ್ಷಕ್ಕಿಂತ ಕಡಿಮೆ",
+    match:(a)=> a.occupation==="farmer" && a.income!=="8p" },
+  { id:"postmatric", en:"Post-Matric Scholarship", kn:"ಮೆಟ್ರಿಕ್ ನಂತರದ ವಿದ್ಯಾರ್ಥಿ ವೇತನ", cat:"Students",
+    en_b:"Full fee reimbursement + monthly stipend", kn_b:"ಪೂರ್ಣ ಶುಲ್ಕ ಮರುಪಾವತಿ + ಮಾಸಿಕ ಭತ್ಯೆ",
+    en_why:"Student with family income within limit", kn_why:"ಆದಾಯ ಮಿತಿಯೊಳಗಿನ ವಿದ್ಯಾರ್ಥಿ",
+    match:(a)=> a.occupation==="student" && (a.income==="u1l"||a.income==="1_3l"||a.income==="3_8l") },
+  { id:"oldage", en:"Old Age Pension (Sandhya Suraksha)", kn:"ವೃದ್ಧಾಪ್ಯ ಪಿಂಚಣಿ (ಸಂಧ್ಯಾ ಸುರಕ್ಷಾ)", cat:"Pension",
+    en_b:"₹1,200 / month pension", kn_b:"ತಿಂಗಳಿಗೆ ₹೧,೨೦೦ ಪಿಂಚಣಿ",
+    en_why:"Applicant aged 60 or above", kn_why:"೬೦ ವರ್ಷ ಮೇಲ್ಪಟ್ಟ ಅರ್ಜಿದಾರ",
+    match:(a)=> a.age==="60p" },
+  { id:"ayushman", en:"Ayushman Bharat – Arogya Karnataka", kn:"ಆಯುಷ್ಮಾನ್ ಭಾರತ್ – ಆರೋಗ್ಯ ಕರ್ನಾಟಕ", cat:"Health",
+    en_b:"Up to ₹5 lakh / year free hospital cover", kn_b:"ವರ್ಷಕ್ಕೆ ₹೫ ಲಕ್ಷದವರೆಗೆ ಉಚಿತ ಆಸ್ಪತ್ರೆ ರಕ್ಷಣೆ",
+    en_why:"Family income within eligibility band", kn_why:"ಆದಾಯ ಅರ್ಹತಾ ಮಿತಿಯೊಳಗೆ",
+    match:(a)=> a.income==="u1l"||a.income==="1_3l"||a.income==="3_8l" },
+  { id:"shrameev", en:"Self-Employment Loan (Udyogini)", kn:"ಸ್ವಯಂ ಉದ್ಯೋಗ ಸಾಲ (ಉದ್ಯೋಗಿನಿ)", cat:"Jobs",
+    en_b:"Subsidised loan up to ₹3 lakh for your business", kn_b:"ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ ₹೩ ಲಕ್ಷದವರೆಗೆ ಸಬ್ಸಿಡಿ ಸಾಲ",
+    en_why:"Self-employed or starting a small business", kn_why:"ಸ್ವಯಂ ಉದ್ಯೋಗ ಅಥವಾ ಸಣ್ಣ ವ್ಯಾಪಾರ",
+    match:(a)=> a.occupation==="selfemp" || (a.gender==="female" && a.occupation!=="student") },
+  { id:"shramshakti", en:"Labour Welfare Card Benefits", kn:"ಕಾರ್ಮಿಕ ಕಲ್ಯಾಣ ಕಾರ್ಡ್ ಲಾಭಗಳು", cat:"Welfare",
+    en_b:"Accident cover, education aid & tool kits", kn_b:"ಅಪಘಾತ ರಕ್ಷಣೆ, ಶಿಕ್ಷಣ ಸಹಾಯ ಮತ್ತು ಸಾಧನ ಕಿಟ್",
+    en_why:"Daily-wage / construction worker", kn_why:"ದಿನಗೂಲಿ / ನಿರ್ಮಾಣ ಕಾರ್ಮಿಕ",
+    match:(a)=> a.occupation==="worker" },
+];
+
+window.SETU = { I18N, CATEGORIES, EL_QUESTIONS, SCHEMES };
+
+</script>
+
+<script type="text/babel">
+/* === icons === */
+/* ============================================================
+   SetuNxt — icon set (stroke-based, consistent 1.8 weight)
+   ============================================================ */
+const Svg = ({ children, size=24, sw=1.8, ...rest }) => (
+  React.createElement("svg", {
+    width:size, height:size, viewBox:"0 0 24 24", fill:"none",
+    stroke:"currentColor", strokeWidth:sw, strokeLinecap:"round", strokeLinejoin:"round",
+    ...rest
+  }, children)
+);
+const P = (d, k) => React.createElement("path", { d, key:k });
+
+const Icons = {
+  sprout: (p)=> React.createElement(Svg, p, [P("M12 22V12",1), P("M12 12C12 8 9 6 4 6c0 5 3 6 8 6Z",2), P("M12 12c0-3 2.5-5 7-5 0 4-3 5-7 5Z",3)]),
+  cap: (p)=> React.createElement(Svg, p, [P("M22 9 12 5 2 9l10 4 10-4Z",1), P("M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5",2), P("M22 9v5",3)]),
+  heart: (p)=> React.createElement(Svg, p, [P("M12 20s-7-4.3-9.3-9C1.4 8.4 2.6 5 6 5c2 0 3.2 1.2 4 2.3C10.8 6.2 12 5 14 5c3.4 0 4.6 3.4 3.3 6-2.3 4.7-9.3 9-9.3 9Z",1)]),
+  pension: (p)=> React.createElement(Svg, p, [P("M8 8a4 4 0 1 1 8 0c0 4-4 5-4 9",1), P("M12 21h.01",2), React.createElement("circle",{cx:12,cy:8,r:0.4,key:3,fill:"currentColor"})]),
+  doc: (p)=> React.createElement(Svg, p, [P("M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z",1), P("M14 3v5h5",2), P("M9 13h6M9 17h4",3)]),
+  land: (p)=> React.createElement(Svg, p, [P("M3 20h18",1), P("M5 20V9l7-5 7 5v11",2), P("M9 20v-5h6v5",3)]),
+  health: (p)=> React.createElement(Svg, p, [P("M3 12h4l2 5 4-12 2 7h6",1)]),
+  work: (p)=> React.createElement(Svg, p, [P("M4 8h16a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a1 1 0 0 1 1-1Z",1), P("M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2",2), P("M3 13h18",3)]),
+  chat: (p)=> React.createElement(Svg, p, [P("M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12Z",1)]),
+  mic: (p)=> React.createElement(Svg, p, [P("M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z",1), P("M6 11a6 6 0 0 0 12 0M12 18v3",2)]),
+  arrow: (p)=> React.createElement(Svg, p, [P("M5 12h14M13 6l6 6-6 6",1)]),
+  arrowDown: (p)=> React.createElement(Svg, p, [P("M12 5v14M6 13l6 6 6-6",1)]),
+  check: (p)=> React.createElement(Svg, p, [P("M4 12.5 9 17.5 20 6.5",1)]),
+  x: (p)=> React.createElement(Svg, p, [P("M6 6l12 12M18 6 6 18",1)]),
+  shield: (p)=> React.createElement(Svg, p, [P("M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z",1), P("M9 12l2 2 4-4",2)]),
+  rupee: (p)=> React.createElement(Svg, p, [P("M7 5h10M7 9h10M16 5c0 4-3 6-7 6l6 8",1)]),
+  globe: (p)=> React.createElement(Svg, p, [React.createElement("circle",{cx:12,cy:12,r:9,key:1}), P("M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18",2)]),
+  eye: (p)=> React.createElement(Svg, p, [P("M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z",1), React.createElement("circle",{cx:12,cy:12,r:2.6,key:2})]),
+  bridge: (p)=> React.createElement(Svg, p, [P("M3 9c3 0 4 3 9 3s6-3 9-3",1), P("M3 9v9M21 9v9M9 13v5M15 13v5M3 18h18",2)]),
+  bolt: (p)=> React.createElement(Svg, p, [P("M13 2 4 14h7l-1 8 9-12h-7l1-8Z",1)]),
+  wa: (p)=> React.createElement(Svg, {...p, fill:"currentColor", stroke:"none"}, [P("M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.42 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.13 8.13 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24Zm-3.2 4.3c-.15 0-.4.06-.6.28-.21.22-.8.78-.8 1.9 0 1.12.82 2.2.93 2.36.12.15 1.6 2.55 3.95 3.47 1.96.77 2.36.62 2.78.58.42-.04 1.36-.55 1.55-1.09.19-.53.19-.99.13-1.08-.06-.1-.21-.15-.44-.27-.23-.11-1.36-.67-1.57-.75-.21-.07-.36-.11-.51.12-.15.22-.59.74-.72.89-.13.15-.27.17-.5.06-.23-.12-.97-.36-1.85-1.14-.68-.61-1.14-1.36-1.28-1.59-.13-.23-.01-.35.1-.46.1-.1.23-.27.34-.4.11-.14.15-.23.23-.39.07-.15.04-.29-.02-.4-.06-.12-.5-1.27-.7-1.73-.18-.45-.37-.39-.5-.4h-.43Z",1)]),
+};
+
+window.Icon = ({ name, ...rest }) => {
+  const fn = Icons[name];
+  return fn ? fn(rest) : null;
+};
+window.Icons = Icons;
+
+
+/* === shared components === */
+/* ============================================================
+   SetuNxt — shared components
+   ============================================================ */
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* Brand logo: a small bridge mark + wordmark */
+function Logo({ size=34, light=false }){
+  const ink = light ? "#fff" : "var(--green-800)";
+  const accent = "var(--saffron-500)";
+  return React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10}},
+    React.createElement("div",{style:{
+      width:size,height:size,borderRadius:11,
+      background:light?"rgba(255,255,255,.16)":"var(--green-700)",
+      display:"grid",placeItems:"center",flexShrink:0,
+      boxShadow:light?"none":"0 6px 16px rgba(11,110,79,.32)"
+    }},
+      React.createElement("svg",{width:size*0.62,height:size*0.62,viewBox:"0 0 24 24",fill:"none",
+        stroke:"#fff",strokeWidth:1.9,strokeLinecap:"round",strokeLinejoin:"round"},
+        React.createElement("path",{d:"M3 9c3 0 4 3 9 3s6-3 9-3"}),
+        React.createElement("path",{d:"M3 9v8M21 9v8M9 13v4M15 13v4M3 17h18",stroke:accent}),
+      )
+    ),
+    React.createElement("div",{style:{lineHeight:1}},
+      React.createElement("div",{style:{
+        fontFamily:"var(--font-display)",fontWeight:800,fontSize:size*0.66,
+        letterSpacing:"-.03em",color:ink
+      }},"Saral",React.createElement("span",{style:{color:accent}},"setu")),
+    )
+  );
+}
+
+/* reveal-on-scroll: add .reveal to any element, this wires the observer */
+function useReveal(){
+  useEffect(()=>{
+    const els = document.querySelectorAll(".reveal:not(.in)");
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+    },{ threshold:0.12, rootMargin:"0px 0px -8% 0px" });
+    els.forEach((el,i)=>{ el.style.transitionDelay = (Math.min(i,6)*60)+"ms"; io.observe(el); });
+    return ()=> io.disconnect();
+  });
+}
+
+/* count-up number for stats */
+function CountUp({ to, suffix="", dur=1400 }){
+  const [n,setN]=useState(0);
+  const ref=useRef(null);
+  useEffect(()=>{
+    let raf, started=false;
+    const io=new IntersectionObserver((es)=>{
+      if(es[0].isIntersecting && !started){
+        started=true;
+        const t0=performance.now();
+        const tick=(t)=>{
+          const p=Math.min(1,(t-t0)/dur);
+          const e=1-Math.pow(1-p,3);
+          setN(Math.round(to*e));
+          if(p<1) raf=requestAnimationFrame(tick);
+        };
+        raf=requestAnimationFrame(tick);
+      }
+    },{threshold:0.5});
+    if(ref.current) io.observe(ref.current);
+    return ()=>{ io.disconnect(); cancelAnimationFrame(raf); };
+  },[to]);
+  return React.createElement("span",{ref},n.toLocaleString("en-IN"),suffix);
+}
+
+Object.assign(window, { Logo, useReveal, CountUp });
+
+
+/* === homepage part 1 === */
+/* ============================================================
+   SetuNxt — Homepage sections
+   ============================================================ */
+const { useState:hUseState, useEffect:hUseEffect } = React;
+
+/* ---------- Header ---------- */
+function Header({ t, lang, setLang, onStart }){
+  const [solid,setSolid]=React.useState(false);
+  React.useEffect(()=>{
+    const on=()=>setSolid(window.scrollY>20);
+    on(); window.addEventListener("scroll",on); return ()=>window.removeEventListener("scroll",on);
+  },[]);
+  const nav=[["nav_services","#services"],["nav_how","#how"],["nav_track","#track"],["nav_about","#about"]];
+  return React.createElement("header",{style:{
+    position:"sticky",top:0,zIndex:50,
+    background: solid? "rgba(251,251,246,.86)":"transparent",
+    backdropFilter: solid?"saturate(140%) blur(12px)":"none",
+    borderBottom: solid?"1px solid var(--line-soft)":"1px solid transparent",
+    transition:"all .25s ease"
+  }},
+    React.createElement("div",{className:"wrap",style:{display:"flex",alignItems:"center",justifyContent:"space-between",height:74}},
+      React.createElement("a",{href:"#top"},React.createElement(Logo,null)),
+      React.createElement("nav",{className:lang==="kn"?"kn":"",style:{display:"flex",gap:30,alignItems:"center"}},
+        nav.map(([k,h])=>React.createElement("a",{key:k,href:h,style:{
+          fontWeight:600,fontSize:15.5,color:"var(--ink-700)"
+        }},t[k]))
+      ),
+      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:14}},
+        React.createElement(LangToggle,{lang,setLang}),
+        React.createElement("button",{className:"btn btn-primary btn-sm",onClick:onStart},
+          React.createElement(Icon,{name:"bolt",size:17}), t.hero_cta
+        )
+      )
+    )
+  );
+}
+
+function LangToggle({ lang, setLang }){
+  return React.createElement("div",{style:{
+    display:"flex",background:"#fff",border:"1.5px solid var(--line)",borderRadius:999,padding:3,gap:2
+  }},
+    [["en","EN"],["kn","ಕ"]].map(([v,lab])=>React.createElement("button",{key:v,
+      onClick:()=>setLang(v),
+      style:{
+        padding:"6px 14px",borderRadius:999,fontWeight:700,fontSize:14,
+        fontFamily: v==="kn"?"var(--font-kn)":"inherit",
+        background: lang===v?"var(--green-700)":"transparent",
+        color: lang===v?"#fff":"var(--ink-500)",transition:"all .18s"
+      }},lab))
+  );
+}
+
+/* ---------- Hero ---------- */
+function Hero({ t, lang, onStart, onWhatsApp }){
+  return React.createElement("section",{id:"top",style:{position:"relative",overflow:"hidden",paddingTop:36,paddingBottom:64}},
+    React.createElement(HeroBg,null),
+    React.createElement("div",{className:"wrap",style:{position:"relative",display:"grid",gridTemplateColumns:"1.05fr .95fr",gap:48,alignItems:"center"}},
+      /* left */
+      React.createElement("div",{className:lang==="kn"?"kn":""},
+        React.createElement("div",{className:"pill",style:{marginBottom:22}},
+          React.createElement("span",{style:{width:8,height:8,borderRadius:99,background:"var(--saffron-500)",boxShadow:"0 0 0 4px rgba(244,163,0,.2)"}}),
+          t.hero_pill),
+        React.createElement("h1",{className:"hero-h1",style:{marginBottom:0}},
+          React.createElement("span",{style:{display:"block"}},t.hero_h1a),
+          React.createElement("span",{style:{display:"block",color:"var(--green-700)"}},t.hero_h1b)),
+        React.createElement("p",{style:{fontSize:"clamp(17px,1.4vw,20px)",color:"var(--ink-500)",margin:"26px 0 28px",maxWidth:540}},t.hero_sub),
+        /* ask box */
+        React.createElement("div",{onClick:onStart,style:{
+          display:"flex",alignItems:"center",gap:12,background:"#fff",
+          border:"1.5px solid var(--line)",borderRadius:999,padding:"8px 8px 8px 22px",
+          boxShadow:"var(--shadow-md)",cursor:"text",maxWidth:560
+        }},
+          React.createElement("div",{style:{color:"var(--green-600)",flexShrink:0}},React.createElement(Icon,{name:"chat",size:22})),
+          React.createElement("span",{style:{flex:1,color:"var(--ink-400)",fontSize:15.5,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}},t.hero_input),
+          React.createElement("button",{className:"btn btn-primary",onClick:(e)=>{e.stopPropagation();onStart();},style:{flexShrink:0}},
+            React.createElement(Icon,{name:"arrow",size:18}))
+        ),
+        React.createElement("div",{style:{display:"flex",alignItems:"center",gap:16,marginTop:18,flexWrap:"wrap"}},
+          React.createElement("button",{className:"btn btn-wa btn-sm",onClick:onWhatsApp},
+            React.createElement(Icon,{name:"wa",size:18}),t.hero_wa),
+          React.createElement("span",{style:{fontSize:14,color:"var(--ink-400)",display:"inline-flex",alignItems:"center",gap:6}},
+            React.createElement(Icon,{name:"check",size:15,style:{color:"var(--green-600)"}}),t.hero_trust)
+        ),
+      ),
+      /* right: phone chat mock */
+      React.createElement(HeroPhone,{lang})
+    )
+  );
+}
+
+function HeroBg(){
+  return React.createElement("div",{"aria-hidden":true,style:{position:"absolute",inset:0,pointerEvents:"none"}},
+    React.createElement("div",{style:{position:"absolute",top:-180,right:-120,width:620,height:620,borderRadius:"50%",
+      background:"radial-gradient(circle at 40% 40%, rgba(25,168,123,.18), transparent 62%)"}}),
+    React.createElement("div",{style:{position:"absolute",bottom:-160,left:-140,width:520,height:520,borderRadius:"50%",
+      background:"radial-gradient(circle at 60% 40%, rgba(244,163,0,.13), transparent 64%)"}})
+  );
+}
+
+function HeroPhone({ lang }){
+  const bubbles = lang==="kn"
+    ? [["u","ನಾನು ಬೆಳಗಾವಿಯ ರೈತ"],["b","ಒಳ್ಳೆಯದು! ನಿಮ್ಮ ವಯಸ್ಸು?"],["u","೪೨"],["b","ನಿಮಗಾಗಿ ೪ ಯೋಜನೆ ಸಿಕ್ಕಿದೆ ✨"]]
+    : [["u","I'm a farmer in Belagavi"],["b","Got it! How old are you?"],["u","42"],["b","Found 4 schemes for you ✨"]];
+  return React.createElement("div",{style:{position:"relative",justifySelf:"center"}},
+    /* floating result card */
+    React.createElement("div",{className:"reveal in",style:{
+      position:"absolute",left:-46,top:120,zIndex:3,background:"#fff",borderRadius:18,padding:"14px 16px",
+      boxShadow:"var(--shadow-lg)",width:208,border:"1px solid var(--line-soft)"
+    }},
+      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:9,marginBottom:6}},
+        React.createElement("div",{style:{width:30,height:30,borderRadius:9,background:"var(--green-100)",display:"grid",placeItems:"center",color:"var(--green-700)"}},React.createElement(Icon,{name:"sprout",size:17})),
+        React.createElement("div",{style:{fontWeight:800,fontSize:14.5,fontFamily:"var(--font-display)"}},"PM-Kisan")),
+      React.createElement("div",{style:{fontSize:13,color:"var(--ink-500)"}},lang==="kn"?"ವರ್ಷಕ್ಕೆ ₹೬,೦೦೦":"₹6,000 / year"),
+      React.createElement("div",{style:{marginTop:8,height:6,borderRadius:99,background:"var(--green-100)"}},
+        React.createElement("div",{style:{width:"94%",height:"100%",borderRadius:99,background:"var(--green-500)"}})),
+      React.createElement("div",{style:{fontSize:11.5,fontWeight:700,color:"var(--green-600)",marginTop:5}},"94% match")
+    ),
+    /* floating rupee badge */
+    React.createElement("div",{className:"reveal in",style:{
+      position:"absolute",right:-30,top:38,zIndex:3,background:"var(--saffron-500)",color:"var(--ink-900)",
+      borderRadius:14,padding:"10px 14px",boxShadow:"0 16px 34px rgba(244,163,0,.4)",fontWeight:800,
+      fontFamily:"var(--font-display)",display:"flex",alignItems:"center",gap:7
+    }},React.createElement(Icon,{name:"rupee",size:18}),lang==="kn"?"₹೩೮,೪೦೦/ವರ್ಷ":"₹38,400/yr"),
+    /* phone */
+    React.createElement("div",{style:{
+      width:296,height:584,borderRadius:42,background:"#0e1b16",padding:11,
+      boxShadow:"0 40px 90px rgba(6,58,43,.32), inset 0 0 0 2px rgba(255,255,255,.06)"
+    }},
+      React.createElement("div",{style:{width:"100%",height:"100%",borderRadius:32,overflow:"hidden",background:"#f3f6f1",display:"flex",flexDirection:"column"}},
+        /* app bar */
+        React.createElement("div",{style:{background:"var(--green-700)",padding:"16px 16px 14px",color:"#fff",display:"flex",alignItems:"center",gap:11}},
+          React.createElement("div",{style:{width:38,height:38,borderRadius:11,background:"rgba(255,255,255,.18)",display:"grid",placeItems:"center"}},React.createElement(Icon,{name:"bridge",size:20})),
+          React.createElement("div",null,
+            React.createElement("div",{style:{fontWeight:700,fontSize:15,fontFamily:"var(--font-display)"}},"Setu Assistant"),
+            React.createElement("div",{style:{fontSize:11.5,opacity:.85,display:"flex",alignItems:"center",gap:5}},
+              React.createElement("span",{style:{width:7,height:7,borderRadius:99,background:"#7ef0b0"}}),"online")),
+        ),
+        /* chat */
+        React.createElement("div",{className: lang==="kn"?"kn":"", style:{flex:1,padding:"16px 14px",display:"flex",flexDirection:"column",gap:10,overflow:"hidden"}},
+          bubbles.map(([who,txt],i)=>React.createElement("div",{key:i,style:{
+            alignSelf: who==="u"?"flex-end":"flex-start",maxWidth:"82%",
+            background: who==="u"?"var(--green-600)":"#fff",
+            color: who==="u"?"#fff":"var(--ink-900)",
+            padding:"10px 13px",borderRadius:16,
+            borderBottomRightRadius: who==="u"?5:16, borderBottomLeftRadius: who==="b"?5:16,
+            fontSize:13.5,boxShadow:"0 2px 8px rgba(14,27,22,.06)",lineHeight:1.4
+          }},txt)),
+        ),
+        /* input bar */
+        React.createElement("div",{style:{padding:"10px 12px",background:"#fff",borderTop:"1px solid var(--line-soft)",display:"flex",alignItems:"center",gap:9}},
+          React.createElement("div",{style:{flex:1,height:36,borderRadius:99,background:"#f0f3ee"}}),
+          React.createElement("div",{style:{width:36,height:36,borderRadius:99,background:"var(--green-700)",display:"grid",placeItems:"center",color:"#fff"}},React.createElement(Icon,{name:"mic",size:17})))
+      )
+    )
+  );
+}
+
+/* ---------- Stats strip ---------- */
+function Stats({ t }){
+  const items=[[320,"+",t.stat_schemes],[14,"",t.stat_languages],[8,"",t.stat_minutes],[100,"%",t.stat_transparent]];
+  return React.createElement("section",{style:{background:"var(--green-900)",color:"#fff"}},
+    React.createElement("div",{className:"wrap",style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:24,padding:"40px 28px"}},
+      items.map(([n,suf,lab],i)=>React.createElement("div",{key:i,style:{textAlign:"center",borderRight: i<3?"1px solid rgba(255,255,255,.12)":"none"}},
+        React.createElement("div",{style:{fontFamily:"var(--font-display)",fontWeight:800,fontSize:"clamp(34px,3.6vw,48px)",lineHeight:1,color:"var(--saffron-400)"}},
+          React.createElement(CountUp,{to:n,suffix:suf})),
+        React.createElement("div",{style:{fontSize:14.5,opacity:.82,marginTop:8}},lab)))
+    )
+  );
+}
+
+window.HomeParts = { Header, Hero, Stats };
+
+
+/* === homepage part 2 === */
+/* ============================================================
+   SetuNxt — Homepage sections (part 2)
+   ============================================================ */
+
+/* ---------- Categories ---------- */
+function Categories({ t, lang, onStart }){
+  const cats = window.SETU.CATEGORIES;
+  return React.createElement("section",{id:"services",className:"section"},
+    React.createElement("div",{className:"wrap"},
+      React.createElement("div",{className:"reveal "+(lang==="kn"?"kn":""),style:{maxWidth:680,marginBottom:44}},
+        React.createElement("h2",{style:{fontSize:"clamp(30px,3.6vw,46px)"}},t.cat_title),
+        React.createElement("p",{className:"muted",style:{fontSize:19,marginTop:14}},t.cat_sub)),
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:18}},
+        cats.map((c,i)=>React.createElement(CatCard,{key:c.icon,c,lang,onStart,i}))),
+      React.createElement("div",{className:"reveal",style:{marginTop:30}},
+        React.createElement("button",{className:"btn btn-ghost",onClick:onStart},
+          t[ "cat_all"], React.createElement(Icon,{name:"arrow",size:18})))
+    )
+  );
+}
+function CatCard({ c, lang, onStart, i }){
+  const [h,setH]=React.useState(false);
+  return React.createElement("button",{
+    className:"reveal "+(lang==="kn"?"kn":""),
+    onClick:onStart,
+    onMouseEnter:()=>setH(true),onMouseLeave:()=>setH(false),
+    style:{
+      textAlign:"left",background:"#fff",border:"1px solid var(--line)",borderRadius:"var(--r-lg)",
+      padding:"24px 22px 22px",boxShadow: h?"var(--shadow-md)":"var(--shadow-sm)",
+      transform: h?"translateY(-4px)":"none",transition:"all .2s ease",cursor:"pointer"
+    }},
+    React.createElement("div",{style:{
+      width:50,height:50,borderRadius:14,display:"grid",placeItems:"center",marginBottom:16,
+      background: h?"var(--green-700)":"var(--green-50)", color: h?"#fff":"var(--green-700)",transition:"all .2s"
+    }},React.createElement(Icon,{name:c.icon,size:26})),
+    React.createElement("div",{style:{fontFamily:"var(--font-display)",fontWeight:700,fontSize:18.5,letterSpacing:"-.01em"}},lang==="kn"?c.kn:c.en),
+    React.createElement("div",{className:"muted",style:{fontSize:14,marginTop:6,lineHeight:1.45}},lang==="kn"?c.kn_d:c.en_d),
+    React.createElement("div",{style:{marginTop:14,fontSize:13,fontWeight:700,color:"var(--green-600)"}},c.count," ",lang==="kn"?"ಯೋಜನೆಗಳು":"schemes")
+  );
+}
+
+/* ---------- How it works ---------- */
+function HowItWorks({ t, lang }){
+  const steps=[
+    ["chat",t.how_1t,t.how_1d],
+    ["bolt",t.how_2t,t.how_2d],
+    ["shield",t.how_3t,t.how_3d],
+  ];
+  return React.createElement("section",{id:"how",className:"section",style:{background:"var(--green-50)"}},
+    React.createElement("div",{className:"wrap"},
+      React.createElement("div",{className:"reveal center "+(lang==="kn"?"kn":""),style:{maxWidth:720,margin:"0 auto 56px"}},
+        React.createElement("div",{className:"eyebrow",style:{marginBottom:14}},t.how_eyebrow),
+        React.createElement("h2",{style:{fontSize:"clamp(30px,3.6vw,46px)"}},t.how_title)),
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:22,position:"relative"}},
+        steps.map(([ic,title,desc],i)=>React.createElement("div",{key:i,className:"reveal "+(lang==="kn"?"kn":""),style:{
+          background:"#fff",borderRadius:"var(--r-lg)",padding:"32px 28px",boxShadow:"var(--shadow-sm)",position:"relative"
+        }},
+          React.createElement("div",{style:{
+            position:"absolute",top:24,right:26,fontFamily:"var(--font-display)",fontWeight:800,
+            fontSize:46,color:"var(--green-100)",lineHeight:1
+          }},"0"+(i+1)),
+          React.createElement("div",{style:{width:56,height:56,borderRadius:16,background:"var(--green-700)",color:"#fff",display:"grid",placeItems:"center",marginBottom:20}},React.createElement(Icon,{name:ic,size:28})),
+          React.createElement("h3",{style:{fontSize:21}},title),
+          React.createElement("p",{className:"muted",style:{marginTop:10,fontSize:15.5,lineHeight:1.5}},desc)
+        ))
+      )
+    )
+  );
+}
+
+/* ---------- Differentiators ---------- */
+function Differentiators({ t, lang }){
+  const items=[
+    ["globe",t.diff_1t,t.diff_1d],
+    ["rupee",t.diff_2t,t.diff_2d],
+    ["chat",t.diff_3t,t.diff_3d],
+    ["eye",t.diff_4t,t.diff_4d],
+  ];
+  return React.createElement("section",{id:"about",className:"section"},
+    React.createElement("div",{className:"wrap"},
+      React.createElement("div",{className:"reveal "+(lang==="kn"?"kn":""),style:{maxWidth:720,marginBottom:48}},
+        React.createElement("div",{className:"eyebrow",style:{marginBottom:14}},t.diff_eyebrow),
+        React.createElement("h2",{style:{fontSize:"clamp(30px,3.6vw,46px)"}},t.diff_title)),
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20}},
+        items.map(([ic,title,desc],i)=>React.createElement("div",{key:i,className:"reveal "+(lang==="kn"?"kn":""),style:{
+          display:"flex",gap:18,background:"#fff",border:"1px solid var(--line)",borderRadius:"var(--r-lg)",padding:"26px 26px"
+        }},
+          React.createElement("div",{style:{width:52,height:52,flexShrink:0,borderRadius:14,background:"var(--saffron-100)",color:"var(--saffron-600)",display:"grid",placeItems:"center"}},React.createElement(Icon,{name:ic,size:26})),
+          React.createElement("div",null,
+            React.createElement("h3",{style:{fontSize:20}},title),
+            React.createElement("p",{className:"muted",style:{marginTop:8,fontSize:15.5,lineHeight:1.5}},desc))
+        ))
+      )
+    )
+  );
+}
+
+/* ---------- Comparison ---------- */
+function Compare({ t, lang }){
+  const rows = lang==="kn" ? [
+    ["ಸಾಲಿನಲ್ಲಿ ನಿಂತು ಫಾರ್ಮ್ ಭರ್ತಿ","ಸರಳ ಮಾತಿನಲ್ಲಿ ಚಾಟ್ ಅಥವಾ ಧ್ವನಿ"],
+    ["ಯಾವ ಯೋಜನೆ ಎಂದು ನೀವೇ ಹುಡುಕಬೇಕು","ಎಐ ಎಲ್ಲಾ ಅರ್ಹ ಯೋಜನೆ ತೋರಿಸುತ್ತದೆ"],
+    ["ಪ್ರತಿ ಅರ್ಜಿಗೆ ₹೩೦೦–₹೧೫೦೦","ಉಚಿತ ಪರಿಶೀಲನೆ, ಪಾರದರ್ಶಕ ಶುಲ್ಕ"],
+    ["ಸ್ಥಿತಿ ಗೊತ್ತಾಗದು","ನೇರ ಇ-ಆಡಳಿತ ಲೈವ್ ಸ್ಥಿತಿ"],
+    ["ಇಂಗ್ಲಿಷ್ ಮಾತ್ರ","೧೪ ಭಾಷೆಗಳು, ಕನ್ನಡ ಮೊದಲು"],
+  ] : [
+    ["Stand in line, fill paper forms","Just chat or speak in plain words"],
+    ["You hunt for the right scheme","AI surfaces every scheme you qualify for"],
+    ["₹300–₹1500 per application","Free check, one transparent flat fee"],
+    ["No idea where your file is","Live status, straight from e-Governance"],
+    ["English-only, confusing","14 languages, Kannada-first"],
+  ];
+  return React.createElement("section",{className:"section-tight"},
+    React.createElement("div",{className:"wrap"},
+      React.createElement("h2",{className:"reveal center "+(lang==="kn"?"kn":""),style:{fontSize:"clamp(28px,3.2vw,40px)",maxWidth:640,margin:"0 auto 40px"}},t.compare_title),
+      React.createElement("div",{className:"reveal",style:{
+        display:"grid",gridTemplateColumns:"1fr 1fr",gap:0,maxWidth:920,margin:"0 auto",
+        borderRadius:"var(--r-lg)",overflow:"hidden",boxShadow:"var(--shadow-md)",border:"1px solid var(--line)"
+      }},
+        /* them col */
+        React.createElement("div",{className:lang==="kn"?"kn":"",style:{background:"#fff",padding:"4px 0"}},
+          React.createElement("div",{style:{padding:"22px 26px 16px",fontWeight:700,color:"var(--ink-400)",fontSize:16,borderBottom:"1px solid var(--line-soft)"}},t.compare_them),
+          rows.map((r,i)=>React.createElement("div",{key:i,style:{display:"flex",gap:12,alignItems:"flex-start",padding:"16px 26px",borderBottom: i<rows.length-1?"1px solid var(--line-soft)":"none",color:"var(--ink-500)",fontSize:15.5}},
+            React.createElement("span",{style:{color:"#c9ccc4",marginTop:1,flexShrink:0}},React.createElement(Icon,{name:"x",size:18})),r[0]))
+        ),
+        /* us col */
+        React.createElement("div",{className:lang==="kn"?"kn":"",style:{background:"var(--green-700)",color:"#fff",padding:"4px 0"}},
+          React.createElement("div",{style:{padding:"22px 26px 16px",fontWeight:800,fontSize:16,fontFamily:"var(--font-display)",borderBottom:"1px solid rgba(255,255,255,.14)",display:"flex",alignItems:"center",gap:9}},
+            React.createElement(Logo,{size:22,light:true})),
+          rows.map((r,i)=>React.createElement("div",{key:i,style:{display:"flex",gap:12,alignItems:"flex-start",padding:"16px 26px",borderBottom: i<rows.length-1?"1px solid rgba(255,255,255,.14)":"none",fontSize:15.5,fontWeight:500}},
+            React.createElement("span",{style:{color:"var(--saffron-400)",marginTop:1,flexShrink:0}},React.createElement(Icon,{name:"check",size:18})),r[1]))
+        )
+      )
+    )
+  );
+}
+
+/* ---------- WhatsApp band ---------- */
+function WhatsAppBand({ t, lang, onWhatsApp }){
+  return React.createElement("section",{id:"track",className:"section"},
+    React.createElement("div",{className:"wrap"},
+      React.createElement("div",{className:"reveal "+(lang==="kn"?"kn":""),style:{
+        position:"relative",overflow:"hidden",borderRadius:"var(--r-xl)",
+        background:"linear-gradient(120deg,var(--green-800),var(--green-600))",color:"#fff",
+        padding:"56px 56px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:40,flexWrap:"wrap"
+      }},
+        React.createElement("div",{style:{position:"absolute",right:-60,top:-60,width:320,height:320,borderRadius:"50%",background:"rgba(255,255,255,.06)"}}),
+        React.createElement("div",{style:{position:"relative",maxWidth:560}},
+          React.createElement("div",{style:{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(255,255,255,.15)",padding:"7px 14px",borderRadius:999,fontSize:13.5,fontWeight:700,marginBottom:18}},
+            React.createElement(Icon,{name:"wa",size:16}),"WhatsApp"),
+          React.createElement("h2",{style:{fontSize:"clamp(28px,3.2vw,42px)",color:"#fff"}},t.wa_title),
+          React.createElement("p",{style:{marginTop:14,fontSize:18,opacity:.9}},t.wa_sub)),
+        React.createElement("button",{className:"btn btn-accent btn-lg",style:{position:"relative",flexShrink:0},onClick:onWhatsApp},
+          React.createElement(Icon,{name:"wa",size:20}),t.wa_cta)
+      )
+    )
+  );
+}
+
+/* ---------- Footer ---------- */
+function Footer({ t, lang }){
+  return React.createElement("footer",{style:{background:"var(--green-900)",color:"rgba(255,255,255,.82)",paddingTop:56}},
+    React.createElement("div",{className:"wrap"},
+      React.createElement("div",{style:{display:"grid",gridTemplateColumns:"1.4fr 1fr 1fr 1fr",gap:40,paddingBottom:44,borderBottom:"1px solid rgba(255,255,255,.12)"}},
+        React.createElement("div",{className:lang==="kn"?"kn":""},
+          React.createElement(Logo,{size:34,light:true}),
+          React.createElement("p",{style:{marginTop:16,fontSize:16,maxWidth:300,color:"rgba(255,255,255,.7)"}},t.foot_note),
+          React.createElement("div",{style:{marginTop:18,display:"flex",gap:10,flexWrap:"wrap"}},
+            ["DigiLocker","e-Sign","e-Governance KA"].map(p=>React.createElement("span",{key:p,style:{fontSize:12.5,fontWeight:600,padding:"6px 12px",borderRadius:999,background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.12)"}},p)))
+        ),
+        [["Services",["Farmers","Scholarships","Pensions","Certificates"]],
+         ["Company",["About","Careers","Press","Contact"]],
+         ["Support",["Help centre","Track request","Privacy","Terms"]]].map(([h,links])=>
+          React.createElement("div",{key:h},
+            React.createElement("div",{style:{fontWeight:700,color:"#fff",marginBottom:16,fontSize:15}},h),
+            links.map(l=>React.createElement("a",{key:l,href:"#",style:{display:"block",fontSize:14.5,padding:"6px 0",color:"rgba(255,255,255,.7)"}},l))))
+      ),
+      React.createElement("div",{className:lang==="kn"?"kn":"",style:{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"22px 0 30px",flexWrap:"wrap",gap:12}},
+        React.createElement("div",{style:{fontFamily:"var(--font-display)",fontWeight:700,color:"var(--saffron-400)",fontSize:16}},t.foot_tag),
+        React.createElement("div",{style:{fontSize:12.5,color:"rgba(255,255,255,.5)",maxWidth:480,textAlign:"right"}},t.foot_disc))
+    )
+  );
+}
+
+window.HomeParts2 = { Categories, HowItWorks, Differentiators, Compare, WhatsAppBand, Footer };
+
+
+/* === eligibility === */
+/* ============================================================
+   SetuNxt — Conversational eligibility flow (full-screen)
+   ============================================================ */
+const { useState:eUseState, useEffect:eUseEffect, useRef:eUseRef } = React;
+
+function Eligibility({ t, lang, onClose, onWhatsApp }){
+  const Q = window.SETU.EL_QUESTIONS;
+  // phase: greet -> asking -> thinking -> results
+  const [phase,setPhase]=eUseState("greet");
+  const [msgs,setMsgs]=eUseState([{from:"bot",text:t.el_greet}]);
+  const [step,setStep]=eUseState(-1);          // -1 = greeting shown, 0..n = question index
+  const [answers,setAnswers]=eUseState({});
+  const [typing,setTyping]=eUseState(false);
+  const [freeVal,setFreeVal]=eUseState("");
+  const scroller=eUseRef(null);
+
+  // re-greet when language changes mid-flow at the very start
+  eUseEffect(()=>{ if(step===-1 && phase==="greet"){ setMsgs([{from:"bot",text:t.el_greet}]); } },[lang]);
+
+  eUseEffect(()=>{
+    const el=scroller.current; if(el) el.scrollTo({top:el.scrollHeight,behavior:"smooth"});
+  },[msgs,typing,phase]);
+
+  const pushBot=(text,delay=700)=> new Promise(res=>{
+    setTyping(true);
+    setTimeout(()=>{ setTyping(false); setMsgs(m=>[...m,{from:"bot",text}]); res(); }, delay);
+  });
+
+  async function askQuestion(idx){
+    const q=Q[idx];
+    await pushBot(lang==="kn"?q.kn_q:q.en_q, 750);
+    setStep(idx);
+    setPhase("asking");
+  }
+
+  async function begin(){
+    setMsgs(m=>[...m,{from:"user",text:t.el_begin}]);
+    await askQuestion(0);
+  }
+
+  async function answer(q, value, label){
+    setMsgs(m=>[...m,{from:"user",text:label}]);
+    const na={...answers,[q.id]:value};
+    setAnswers(na);
+    setStep(-2); // lock inputs while transitioning
+    const next=Q.findIndex((qq,i)=> i>Q.indexOf(q));
+    if(next>-1 && next<Q.length){
+      await askQuestion(next);
+    } else {
+      // done -> think -> results
+      setPhase("thinking");
+      await pushBot(lang==="kn"?"ಒಂದು ಕ್ಷಣ, ೩೨೦+ ಯೋಜನೆ ಪರಿಶೀಲಿಸುತ್ತಿದ್ದೇನೆ…":"One moment — scanning 320+ schemes for you…", 1100);
+      await pushBot(t.el_results_title+" ✨", 1400);
+      setPhase("results");
+    }
+  }
+
+  function submitFree(q){
+    const v=freeVal.trim(); if(!v) return;
+    setFreeVal("");
+    answer(q, v, v);
+  }
+
+  const matched = window.SETU.SCHEMES.filter(s=>{ try{ return s.match(answers); }catch(e){ return false; } });
+  // ensure at least a couple show
+  const results = matched.length? matched : window.SETU.SCHEMES.slice(0,3);
+  const score = (id)=>{ let h=0; for(let i=0;i<id.length;i++) h=(h*31+id.charCodeAt(i))%100; return 82+(h%16); };
+
+  const curQ = step>=0 ? Q[step] : null;
+
+  return React.createElement("div",{style:{
+    position:"fixed",inset:0,zIndex:200,background:"var(--paper)",display:"flex",flexDirection:"column"
+  }},
+    /* top bar */
+    React.createElement("div",{style:{
+      flexShrink:0,background:"#fff",borderBottom:"1px solid var(--line-soft)",
+      padding:"0 20px",height:66,display:"flex",alignItems:"center",justifyContent:"space-between"
+    }},
+      React.createElement("button",{className:"btn btn-ghost btn-sm",onClick:onClose,style:{border:"none",padding:"8px 12px"}},
+        React.createElement(Icon,{name:"arrow",size:18,style:{transform:"rotate(180deg)"}}),
+        React.createElement("span",{className:lang==="kn"?"kn":""},t.el_back)),
+      React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10}},
+        React.createElement("div",{style:{width:34,height:34,borderRadius:10,background:"var(--green-700)",color:"#fff",display:"grid",placeItems:"center"}},React.createElement(Icon,{name:"bridge",size:19})),
+        React.createElement("div",{style:{lineHeight:1.1}},
+          React.createElement("div",{style:{fontFamily:"var(--font-display)",fontWeight:800,fontSize:16}},"Setu Assistant"),
+          React.createElement("div",{style:{fontSize:12,color:"var(--green-600)",fontWeight:600}},"AI eligibility check"))),
+      React.createElement("button",{className:"btn btn-ghost btn-sm",onClick:()=>{
+        setMsgs([{from:"bot",text:t.el_greet}]); setStep(-1); setAnswers({}); setPhase("greet"); setTyping(false);
+      },style:{border:"none",padding:"8px 12px",color:"var(--ink-400)"}},
+        React.createElement("span",{className:lang==="kn"?"kn":""},t.el_restart))
+    ),
+    /* progress */
+    (phase==="asking"||phase==="thinking") && step>=0 ?
+      React.createElement("div",{style:{flexShrink:0,height:4,background:"var(--green-50)"}},
+        React.createElement("div",{style:{height:"100%",width:((step+1)/Q.length*100)+"%",background:"var(--green-500)",transition:"width .5s ease"}})) : null,
+
+    /* chat scroll */
+    React.createElement("div",{ref:scroller,className:"thin-scroll",style:{flex:1,overflowY:"auto",padding:"28px 0"}},
+      React.createElement("div",{style:{maxWidth:760,margin:"0 auto",padding:"0 20px",display:"flex",flexDirection:"column",gap:14}},
+        msgs.map((m,i)=>React.createElement(Bubble,{key:i,m,lang})),
+        typing? React.createElement(Typing,{t,lang}):null,
+
+        /* greeting begin button */
+        (phase==="greet"&&!typing)? React.createElement(QuickRow,null,
+          React.createElement(Chip,{onClick:begin,primary:true,lang},t.el_begin)) : null,
+
+        /* current question controls */
+        (phase==="asking"&&curQ&&!typing)? React.createElement(AnswerControls,{q:curQ,lang,t,onPick:answer,freeVal,setFreeVal,submitFree}) : null,
+
+        /* results */
+        (phase==="results")? React.createElement(Results,{t,lang,results,score,onWhatsApp}) : null
+      )
+    )
+  );
+}
+
+function Bubble({ m, lang }){
+  const bot = m.from==="bot";
+  return React.createElement("div",{className:"el-pop",style:{display:"flex",gap:11,alignSelf: bot?"flex-start":"flex-end",maxWidth:"86%",flexDirection: bot?"row":"row-reverse"}},
+    bot? React.createElement("div",{style:{width:34,height:34,flexShrink:0,borderRadius:10,background:"var(--green-700)",color:"#fff",display:"grid",placeItems:"center"}},React.createElement(Icon,{name:"bridge",size:18})) : null,
+    React.createElement("div",{className:lang==="kn"?"kn":"",style:{
+      background: bot?"#fff":"var(--green-600)",
+      color: bot?"var(--ink-900)":"#fff",
+      padding:"13px 17px",borderRadius:18,
+      borderTopLeftRadius: bot?5:18, borderTopRightRadius: bot?18:5,
+      fontSize:16.5,lineHeight:1.5,boxShadow:"var(--shadow-sm)",
+      border: bot?"1px solid var(--line-soft)":"none"
+    }},m.text)
+  );
+}
+
+function Typing({ t, lang }){
+  return React.createElement("div",{style:{display:"flex",gap:11,alignSelf:"flex-start"}},
+    React.createElement("div",{style:{width:34,height:34,borderRadius:10,background:"var(--green-700)",color:"#fff",display:"grid",placeItems:"center"}},React.createElement(Icon,{name:"bridge",size:18})),
+    React.createElement("div",{style:{background:"#fff",border:"1px solid var(--line-soft)",borderRadius:18,borderTopLeftRadius:5,padding:"15px 18px",display:"flex",gap:5,alignItems:"center"}},
+      [0,1,2].map(i=>React.createElement("span",{key:i,style:{width:8,height:8,borderRadius:99,background:"var(--green-300,#7fccaa)",animation:`elbounce 1s ${i*0.15}s infinite ease-in-out`}})))
+  );
+}
+
+function QuickRow({ children }){
+  return React.createElement("div",{className:"el-pop",style:{display:"flex",flexWrap:"wrap",gap:10,marginLeft:45,marginTop:2}},children);
+}
+function Chip({ children, onClick, primary, lang }){
+  const [h,setH]=React.useState(false);
+  return React.createElement("button",{
+    onClick,onMouseEnter:()=>setH(true),onMouseLeave:()=>setH(false),
+    className:lang==="kn"?"kn":"",
+    style:{
+      padding:"11px 18px",borderRadius:999,fontWeight:700,fontSize:15.5,
+      border: primary?"none":"1.5px solid var(--green-200,#bfe3d2)",
+      background: primary? "var(--green-700)" : (h?"var(--green-50)":"#fff"),
+      color: primary?"#fff":"var(--green-800)",
+      boxShadow: primary?"var(--shadow-green)":(h?"var(--shadow-sm)":"none"),
+      transform: h&&!primary?"translateY(-1px)":"none",transition:"all .15s",cursor:"pointer"
+    }},children);
+}
+
+function AnswerControls({ q, lang, t, onPick, freeVal, setFreeVal, submitFree }){
+  if(q.free){
+    return React.createElement("div",{className:"el-pop",style:{marginLeft:45,marginTop:2}},
+      q.chips? React.createElement("div",{style:{display:"flex",flexWrap:"wrap",gap:10,marginBottom:12}},
+        q.chips.map(c=>React.createElement(Chip,{key:c,lang,onClick:()=>onPick(q,c,c)},c))) : null,
+      React.createElement("div",{style:{display:"flex",gap:10,maxWidth:440}},
+        React.createElement("input",{
+          className:lang==="kn"?"kn":"",value:freeVal,onChange:e=>setFreeVal(e.target.value),
+          onKeyDown:e=>{ if(e.key==="Enter") submitFree(q); },
+          placeholder:t.el_placeholder,autoFocus:true,
+          style:{flex:1,padding:"13px 18px",borderRadius:999,border:"1.5px solid var(--line)",fontSize:16,fontFamily:"inherit",outline:"none"}}),
+        React.createElement("button",{className:"btn btn-primary",onClick:()=>submitFree(q)},React.createElement(Icon,{name:"arrow",size:18})))
+    );
+  }
+  return React.createElement("div",{className:"el-pop",style:{display:"flex",flexWrap:"wrap",gap:10,marginLeft:45,marginTop:2}},
+    q.options.map(o=>React.createElement(Chip,{key:o.v,lang,onClick:()=>onPick(q,o.v,lang==="kn"?o.kn:o.en)},lang==="kn"?o.kn:o.en))
+  );
+}
+
+function Results({ t, lang, results, score, onWhatsApp }){
+  return React.createElement("div",{className:"el-pop",style:{marginTop:6,marginLeft:45}},
+    React.createElement("p",{className:lang==="kn"?"kn":"",style:{color:"var(--ink-500)",fontSize:15.5,marginBottom:18,maxWidth:560}},t.el_results_sub),
+    React.createElement("div",{style:{display:"flex",flexDirection:"column",gap:14}},
+      results.map(s=>React.createElement(SchemeCard,{key:s.id,s,lang,t,m:score(s.id),onWhatsApp}))),
+    React.createElement("p",{className:lang==="kn"?"kn":"",style:{marginTop:20,color:"var(--ink-400)",fontSize:15}},t.el_none_more)
+  );
+}
+
+function SchemeCard({ s, lang, t, m, onWhatsApp }){
+  const [open,setOpen]=React.useState(false);
+  return React.createElement("div",{style:{
+    background:"#fff",border:"1px solid var(--line)",borderRadius:"var(--r-lg)",padding:"20px 22px",boxShadow:"var(--shadow-sm)"
+  }},
+    React.createElement("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:16}},
+      React.createElement("div",{style:{flex:1}},
+        React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}},
+          React.createElement("h3",{className:lang==="kn"?"kn":"",style:{fontSize:20}},lang==="kn"?s.kn:s.en),
+          React.createElement("span",{style:{fontSize:12.5,fontWeight:800,color:"var(--green-700)",background:"var(--green-50)",padding:"4px 10px",borderRadius:999}},m+"% "+t.el_match)),
+        React.createElement("div",{className:lang==="kn"?"kn":"",style:{marginTop:8,display:"flex",alignItems:"center",gap:8,color:"var(--ink-700)",fontSize:16,fontWeight:600}},
+          React.createElement(Icon,{name:"rupee",size:17,style:{color:"var(--saffron-600)"}}),lang==="kn"?s.kn_b:s.en_b)),
+    ),
+    open? React.createElement("div",{className:lang==="kn"?"kn":"",style:{marginTop:14,padding:"14px 16px",background:"var(--green-50)",borderRadius:14,fontSize:15,color:"var(--ink-700)"}},
+      React.createElement("span",{style:{fontWeight:700,color:"var(--green-700)"}},t.el_why+": "),lang==="kn"?s.kn_why:s.en_why) : null,
+    React.createElement("div",{style:{display:"flex",gap:10,marginTop:16,flexWrap:"wrap"}},
+      React.createElement("button",{className:"btn btn-primary btn-sm",onClick:()=>alert((lang==="kn"?"ಅರ್ಜಿ ಪ್ರಾರಂಭ: ":"Starting application: ")+(lang==="kn"?s.kn:s.en))},
+        React.createElement("span",{className:lang==="kn"?"kn":""},t.el_apply),React.createElement(Icon,{name:"arrow",size:16})),
+      React.createElement("button",{className:"btn btn-wa btn-sm",onClick:onWhatsApp},React.createElement(Icon,{name:"wa",size:16}),React.createElement("span",{className:lang==="kn"?"kn":""},t.el_apply_wa)),
+      React.createElement("button",{className:"btn btn-ghost btn-sm",onClick:()=>setOpen(o=>!o)},React.createElement("span",{className:lang==="kn"?"kn":""},t.el_more)))
+  );
+}
+
+window.Eligibility = Eligibility;
+
+
+/* === app === */
+/* ============================================================
+   Saralsetu — App root
+   ============================================================ */
+function App(){
+  const [lang,setLang]=React.useState(()=> localStorage.getItem("setu_lang")||"en");
+  const [showEl,setShowEl]=React.useState(false);
+  React.useEffect(()=>{ localStorage.setItem("setu_lang",lang); document.documentElement.lang=lang; },[lang]);
+
+  const t = window.SETU.I18N[lang];
+  useReveal();
+
+  const onStart=()=> setShowEl(true);
+  const onWhatsApp=()=> window.open("https://wa.me/918000000000?text="+encodeURIComponent("Hi Saralsetu, I want to check my eligibility"),"_blank");
+
+  const { Header, Hero, Stats } = window.HomeParts;
+  const { Categories, HowItWorks, Differentiators, Compare, WhatsAppBand, Footer } = window.HomeParts2;
+
+  return React.createElement(React.Fragment,null,
+    React.createElement(Header,{t,lang,setLang,onStart}),
+    React.createElement(Hero,{t,lang,onStart,onWhatsApp}),
+    React.createElement(Stats,{t}),
+    React.createElement(Categories,{t,lang,onStart}),
+    React.createElement(HowItWorks,{t,lang}),
+    React.createElement(Differentiators,{t,lang}),
+    React.createElement(Compare,{t,lang}),
+    React.createElement(WhatsAppBand,{t,lang,onWhatsApp}),
+    React.createElement(Footer,{t,lang}),
+    showEl? React.createElement(window.Eligibility,{t,lang,onClose:()=>setShowEl(false),onWhatsApp}) : null
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+
+</script>
+</body>
+</html>
