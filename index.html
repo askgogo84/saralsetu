@@ -1101,11 +1101,11 @@ function Footer({ t, lang }){
         ),
         [["Services",["Farmers","Scholarships","Pensions","Certificates"]],
          ["Company",["About","Careers","Press","Contact"]],
-         ["Support",["Help centre","Track request","Privacy","Terms"]]].map(([h,links])=>
+         ["Support",["Help centre","Track request","Privacy","Terms","Data Deletion"]]].map(([h,links])=>
           React.createElement("div",{key:h},
             React.createElement("div",{style:{fontWeight:700,color:"#fff",marginBottom:16,fontSize:15}},h),
             links.map(l=>{
-              const hrefMap={"Privacy":"/privacy.html","Terms":"/terms.html"};
+              const hrefMap={"Privacy":"/privacy.html","Terms":"/terms.html","Help centre":"/help-center.html","Contact":"/contact.html","Data Deletion":"/data-deletion.html"};
               return React.createElement("a",{key:l,href:hrefMap[l]||"#",style:{display:"block",fontSize:14.5,padding:"6px 0",color:"rgba(255,255,255,.7)"}},l);
             })))
       ),
