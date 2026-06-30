@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Help Centre — Saralsetu</title>
+<meta name="description" content="Find answers to common questions about Saralsetu, or contact our support team at support@saralsetu.com" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --green-900:#063a2b; --green-800:#0a5640; --green-700:#0b6e4f; --green-600:#138a64;
+  --green-100:#e4f3ec; --green-50:#eef8f2;
+  --saffron-500:#f4a300; --saffron-100:#fdeccd;
+  --ink-900:#0e1b16; --ink-700:#26352e; --ink-500:#5b6b63;
+  --paper:#fbfbf6; --line:#e7e8e0;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Hanken Grotesk',sans-serif; background:var(--paper);
+  color:var(--ink-900); line-height:1.7; font-size:16.5px;
+}
+.topbar{
+  position:sticky; top:0; background:rgba(251,251,246,.95); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line); padding:18px 24px; display:flex; align-items:center; gap:10px; z-index:10;
+}
+.topbar a{ text-decoration:none; display:flex; align-items:center; gap:9px; }
+.logo-icon{
+  width:32px;height:32px;border-radius:9px;background:var(--green-700);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.logo-text{ font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:19px; color:var(--green-900); }
+.logo-text span{ color:var(--saffron-500); }
+.back-link{ margin-left:auto; font-size:14px; font-weight:600; color:var(--green-700); text-decoration:none; }
+.wrap{ max-width:800px; margin:0 auto; padding:48px 24px 100px; }
+h1{
+  font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:38px;
+  color:var(--green-900); letter-spacing:-0.02em; margin-bottom:12px;
+}
+.subtitle{ color:var(--ink-500); font-size:18px; max-width:560px; margin-bottom:40px; }
+@media (max-width:600px){ h1{font-size:28px;} .wrap{padding:32px 18px 80px;} }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="/">
+    <div class="logo-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9c3 0 4 3 9 3s6-3 9-3"/>
+        <path d="M3 9v8M21 9v8M9 13v4M15 13v4M3 17h18" stroke="#f4a300"/>
+      </svg>
+    </div>
+    <div class="logo-text">Saral<span>setu</span></div>
+  </a>
+  <a href="/" class="back-link">← Back to home</a>
+</div>
+<div class="wrap">
+
+
+<style>
+.faq-grid{ display:flex; flex-direction:column; gap:14px; margin-bottom:48px; }
+.faq-item{
+  background:#fff; border:1px solid var(--line); border-radius:16px; padding:22px 26px;
+}
+.faq-q{
+  font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:17px;
+  color:var(--green-900); margin-bottom:8px; display:flex; align-items:flex-start; gap:10px;
+}
+.faq-q::before{ content:"Q"; flex-shrink:0; width:24px;height:24px;border-radius:7px;
+  background:var(--green-50); color:var(--green-700); font-size:13px; font-weight:800;
+  display:flex; align-items:center; justify-content:center; }
+.faq-a{ color:var(--ink-700); font-size:15.5px; padding-left:34px; }
+
+.cat-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-bottom:48px; }
+.cat-card{
+  background:#fff; border:1px solid var(--line); border-radius:16px; padding:24px;
+  transition:all .2s;
+}
+.cat-card:hover{ box-shadow:0 8px 24px rgba(14,27,22,.08); transform:translateY(-2px); }
+.cat-icon{
+  width:44px;height:44px;border-radius:12px;background:var(--green-50);color:var(--green-700);
+  display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+}
+.cat-title{ font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:16.5px; color:var(--green-900); margin-bottom:6px; }
+.cat-desc{ font-size:14px; color:var(--ink-500); line-height:1.5; }
+
+.support-cta{
+  background:linear-gradient(120deg,var(--green-800),var(--green-600));
+  border-radius:24px; padding:40px 36px; color:#fff; display:flex; align-items:center;
+  justify-content:space-between; flex-wrap:wrap; gap:24px;
+}
+.support-cta h2{ font-family:'Bricolage Grotesque',sans-serif; font-size:24px; font-weight:800; margin-bottom:8px; color:#fff; }
+.support-cta p{ color:rgba(255,255,255,.85); font-size:15px; max-width:380px; }
+.btn-mail{
+  display:inline-flex; align-items:center; gap:10px; background:var(--saffron-500); color:var(--ink-900);
+  font-weight:700; padding:14px 26px; border-radius:999px; text-decoration:none; font-size:15.5px;
+  box-shadow:0 14px 30px rgba(244,163,0,.32); flex-shrink:0;
+}
+.section-label{
+  font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--green-600); margin:36px 0 18px;
+}
+.section-label:first-of-type{ margin-top:0; }
+</style>
+
+<h1>Help Centre</h1>
+<p class="subtitle">Find quick answers below, or reach our support team directly — we usually respond within 24 hours.</p>
+
+<div class="section-label">Browse by topic</div>
+<div class="cat-grid">
+  <div class="cat-card">
+    <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div>
+    <div class="cat-title">Eligibility &amp; Schemes</div>
+    <div class="cat-desc">How matching works, which schemes we cover, and why a result may differ from what you expected.</div>
+  </div>
+  <div class="cat-card">
+    <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9 17.5 20 6.5"/></svg></div>
+    <div class="cat-title">Applications</div>
+    <div class="cat-desc">Starting, editing, or tracking a scheme application you've submitted through Saralsetu.</div>
+  </div>
+  <div class="cat-card">
+    <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="M9 12l2 2 4-4"/></svg></div>
+    <div class="cat-title">Documents &amp; DigiLocker</div>
+    <div class="cat-desc">Connecting DigiLocker, e-Sign, and uploading certificates safely.</div>
+  </div>
+  <div class="cat-card">
+    <div class="cat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12Z"/></svg></div>
+    <div class="cat-title">Account &amp; Privacy</div>
+    <div class="cat-desc">Managing your data, language preference, and WhatsApp connection.</div>
+  </div>
+</div>
+
+<div class="section-label">Frequently asked questions</div>
+<div class="faq-grid">
+
+  <div class="faq-item">
+    <div class="faq-q">Is Saralsetu a government website?</div>
+    <div class="faq-a">No. Saralsetu is an independent technology platform built by SetuNexa Technologies Private Limited. We are not affiliated with or operated by any government department. We help you discover and apply for government schemes more easily, but final approval always rests with the relevant government authority.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Is checking my eligibility free?</div>
+    <div class="faq-a">Yes, eligibility checking is completely free for all users. A flat, transparent fee applies only if you choose to proceed with an application through us, and this is always shown to you before you confirm.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Why didn't I qualify for a scheme I expected to?</div>
+    <div class="faq-a">Our AI matches your answers against each scheme's official eligibility criteria. If a result doesn't match your expectation, it usually means one detail (income band, age, occupation, or district) didn't align with the scheme's requirement. You can restart the eligibility check anytime with updated information.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How long does an application take to process?</div>
+    <div class="faq-a">Processing times depend entirely on the government department handling your scheme — this is outside our control. We provide live status tracking wherever the scheme integrates with the e-Governance system, so you always know where things stand.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Is my Aadhaar and personal data safe?</div>
+    <div class="faq-a">Yes. We use encrypted connections, never sell your data, and only use identifiers like Aadhaar or PAN for the specific scheme application you've authorised. See our <a href="/privacy.html" style="color:var(--green-700);font-weight:600;">Privacy Policy</a> for full details.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Can I use Saralsetu without a smartphone?</div>
+    <div class="faq-a">Yes — Saralsetu works over WhatsApp, which most users already have. You don't need to install a separate app.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How do I delete my data?</div>
+    <div class="faq-a">Email support@saralsetu.com with "Data Deletion Request" in the subject line, or message "Delete my data" to our WhatsApp assistant. See full instructions on our <a href="/data-deletion.html" style="color:var(--green-700);font-weight:600;">Data Deletion page</a>.</div>
+  </div>
+
+</div>
+
+<div class="support-cta">
+  <div>
+    <h2>Still need help?</h2>
+    <p>Our support team is here for you. Send us an email and we'll get back to you within 24 hours.</p>
+  </div>
+  <a href="mailto:support@saralsetu.com" class="btn-mail"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg> support@saralsetu.com</a>
+</div>
+
+</div>
+</body>
+</html>
