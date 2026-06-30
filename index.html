@@ -1104,7 +1104,10 @@ function Footer({ t, lang }){
          ["Support",["Help centre","Track request","Privacy","Terms"]]].map(([h,links])=>
           React.createElement("div",{key:h},
             React.createElement("div",{style:{fontWeight:700,color:"#fff",marginBottom:16,fontSize:15}},h),
-            links.map(l=>React.createElement("a",{key:l,href:"#",style:{display:"block",fontSize:14.5,padding:"6px 0",color:"rgba(255,255,255,.7)"}},l))))
+            links.map(l=>{
+              const hrefMap={"Privacy":"/privacy.html","Terms":"/terms.html"};
+              return React.createElement("a",{key:l,href:hrefMap[l]||"#",style:{display:"block",fontSize:14.5,padding:"6px 0",color:"rgba(255,255,255,.7)"}},l);
+            })))
       ),
       React.createElement("div",{className:lang==="kn"?"kn":"",style:{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"22px 0 30px",flexWrap:"wrap",gap:12}},
         React.createElement("div",{style:{fontFamily:"var(--font-display)",fontWeight:700,color:"var(--saffron-400)",fontSize:16}},t.foot_tag),
